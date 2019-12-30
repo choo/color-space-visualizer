@@ -66,9 +66,10 @@ class ThreeColorSpace extends React.Component {
   }
 
   makeRenderer (width, height) {
-    const renderer = new THREE.WebGLRenderer();
+    const renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setSize(width, height);
     renderer.setClearColor(this.attrs.color, 1.0);
+    renderer.setPixelRatio(window.devicePixelRatio);
     return renderer;
   }
 
