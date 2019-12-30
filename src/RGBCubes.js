@@ -8,7 +8,7 @@ const cubeSize = 3;
 
 //const spacing = 6;
 const spacing = 8;
-const offset = [0, 60, 0];
+const offset = [0, 80, 0];
 
 const totalSize = cubeSize * n + spacing * (n - 1);
 const colorSpacing = 256 / n;
