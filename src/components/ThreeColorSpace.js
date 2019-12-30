@@ -8,21 +8,29 @@ import { createHSVCubes } from '../HSVCubes';
 import { OBJ_NAME} from '../CubeUtils'
 
 
-const _getEventCoords = (e, elm) => {
+const _getEventCoords = (e) => {
   /*
     "touchstart": "mousedown"
     "touchmove" : "mousemove"
     "touchend"  : "mouseup"
     "click" -> PC only
   */
+  let x, y;
+  const elm = e.currentTarget;
   if (e.type.startsWith('touch')) {
-    const x = e.targetTouches[0].pageX - elm.offsetLeft;
-    const y = e.targetTouches[0].pageY - elm.offsetTop;
-    return [x, y];
+    x = e.targetTouches[0].pageX - elm.offsetLeft;
+    y = e.targetTouches[0].pageY - elm.offsetTop;
+  } else {
+    x = e.clientX - elm.offsetLeft;
+    y = e.clientY - elm.offsetTop;
   }
-  const x = e.clientX - elm.offsetLeft;
-  const y = e.clientY - elm.offsetTop;
-  return [x, y];
+  const w = elm.offsetWidth;
+  const h = elm.offsetHeight;
+  const coords = {
+    x :  (x / w) * 2 - 1,
+    y : -(y / h) * 2 + 1,
+  };
+  return coords;
 };
 
 
@@ -30,14 +38,7 @@ const _getEventCoords = (e, elm) => {
 const getIntersectObject = (event, scene, camera) => {
   const raycaster = new THREE.Raycaster();
   event.preventDefault();
-  const elm = event.currentTarget;
-  const [x, y] = _getEventCoords(event, elm);
-  const w = elm.offsetWidth;
-  const h = elm.offsetHeight;
-  const coords = {
-    x :  (x / w) * 2 - 1,
-    y : -(y / h) * 2 + 1,
-  };
+  const coords = _getEventCoords(event);
   raycaster.setFromCamera(coords, camera);
   const cubes = scene.children
   const intersects = raycaster.intersectObjects(cubes); 
@@ -100,10 +101,12 @@ class ThreeColorSpace extends React.Component {
     this.rendererRender = () => {renderer.render(this.scene, camera);};
 
     // attach click event
-    const clicked = this.makeCallbackFunc(this.scene, camera);
-    renderer.domElement.addEventListener('click', clicked);
-    renderer.domElement.addEventListener('touchstart', clicked);
-    //renderer.domElement.addEventListener('mousedown', clicked);
+    const clickStart = this.makeEventStart();
+    const clickEnd = this.makeEventEnd(this.scene, camera);
+    renderer.domElement.addEventListener('mousedown',  clickStart);
+    renderer.domElement.addEventListener('touchstart', clickStart);
+    renderer.domElement.addEventListener('mouseup',  clickEnd);
+    renderer.domElement.addEventListener('touchend', clickEnd);
 
     this.divRef.current.appendChild(renderer.domElement);
 
@@ -205,8 +208,19 @@ class ThreeColorSpace extends React.Component {
     return controls
   }
 
-  makeCallbackFunc (scene, camera) {
+  makeEventStart () {
+    const onStart = (e) => {
+      this.evtCoords = _getEventCoords(e);
+    };
+    return onStart;
+  }
+
+  makeEventEnd (scene, camera) {
     const onClicked = (e) => {
+      const coords = _getEventCoords(e);
+      if (coords.x !== this.evtCoords.x || coords.y !== this.evtCoords.y) {
+        return;
+      }
       const mesh = getIntersectObject(e, scene, camera);
       if (mesh) {
         this.selectedCube = mesh;
