@@ -6,8 +6,6 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-
-import Header from './components/Header';
 import ThreeColorSpace from './components/ThreeColorSpace';
 
 const SPACING = {
