@@ -1,4 +1,4 @@
-import {rgb2str} from './ColorUtils'
+import {rgb2hex, sortByColor} from './ColorUtils'
 import {createCubeMesh} from './CubeUtils'
 
 const n = 8;
@@ -20,16 +20,21 @@ const createRGBCubes = () => {
         const color = getCubeColor(i, j, k);
         const [x, y, z] = getCubePosition(i, j, k);
         const cube = createCubeMesh(cubeSize, color, x, y, z);
+        cube.userData.RGB = {
+          color: color,
+          position: [x, y, z],
+        };
         ret.push(cube);
       }
     }
   }
+  ret.sort(sortByColor);
   return ret;
 };
 
 
 const getCubeColor = (i, j, k) => {
-  return rgb2str(
+  return rgb2hex(
     i * colorSpacing,
     j * colorSpacing,
     k * colorSpacing

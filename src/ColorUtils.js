@@ -12,11 +12,25 @@ const rgb2str = (r, g, b) => {
       _toHexStr(b);
 };
 
+const rgb2hex = (r, g, b) => {
+  return r * (256 ** 2) + g * (256) + b;
+};
+
 const hsl2str = (h, s, l) => {
   return "hsl(" + 
       Math.round(360.0 * h) + ", " + 
       Math.round(100.0 * s) + "%, " + 
       Math.round(100.0 * l) + "%)";
+};
+
+const sortByColor = (a, b) => {
+  if (a.color > b.color) {
+      return 1;
+  }
+  if (a.color < b.color ) {
+      return -1;
+  }
+  return 0;
 };
 
 /**
@@ -61,7 +75,7 @@ const hsv2rgb = (h, s, v) => {
   r = _to8bitsInteger(r);
   g = _to8bitsInteger(g);
   b = _to8bitsInteger(b);
-  return rgb2str(r, g, b);
+  return rgb2hex(r, g, b);
 }
 
 
@@ -86,4 +100,4 @@ const _to8bitsInteger = val => {
 };
 
 
-export { rgb2str, hsl2str, hsv2rgb };
+export { rgb2str, rgb2hex, hsl2str, hsv2rgb, sortByColor };

@@ -4,7 +4,7 @@ import * as THREE from "three";
 import OrbitControls from "three-orbitcontrols";
 
 import { createRGBCubes } from '../RGBCubes';
-import { createHSVCubes } from '../HSVCubes';
+import { createHSVCubes, addHSVProps } from '../HSVCubes';
 import { OBJ_NAME} from '../CubeUtils'
 
 
@@ -60,6 +60,7 @@ class ThreeColorSpace extends React.Component {
     this.rendererRender = () => {};
     this.selectedCube = null;
     this.currentSpin = 0.0;
+    this.cubes = null;
 
     this.attrs = {
       width :  800,
@@ -108,9 +109,8 @@ class ThreeColorSpace extends React.Component {
     renderer.domElement.addEventListener('mouseup',  clickEnd);
     renderer.domElement.addEventListener('touchend', clickEnd);
 
+    this.createCubes();
     this.divRef.current.appendChild(renderer.domElement);
-
-    this.updateCubes(this.props.model);
 
     const tick = () => {
       controls.update();
@@ -194,11 +194,13 @@ class ThreeColorSpace extends React.Component {
     return scene;
   }
 
-  addMeshes (meshes) {
-    for (let mesh of meshes) {
-      this.scene.add(mesh);
+  createCubes () {
+    this.cubes = createRGBCubes();
+    addHSVProps(this.cubes);
+    for (let cube of this.cubes) {
+      this.scene.add(cube);
     }
-  }
+  };
 
   makeOrbitControls (camera, elm) {
     const controls = new OrbitControls(camera, elm)
@@ -243,17 +245,11 @@ class ThreeColorSpace extends React.Component {
   }
 
   updateCubes(model) {
-    for (let obj of this.scene.children) {
-      if (obj.name === OBJ_NAME) {
-        this.scene.remove(obj);
-      }
+    for (let cube of this.cubes) {
+      const prop = cube.userData[model];
+      cube.position.set(...prop.position);
+      cube.material.color.setHex(prop.color);
     }
-    if (model === 'RGB') {
-      this.addMeshes(createRGBCubes());
-    } else {
-      this.addMeshes(createHSVCubes());
-    }
-    this.rendererRender();
   }
 
   render() {

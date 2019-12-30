@@ -1,4 +1,4 @@
-import {hsv2rgb} from './ColorUtils'
+import {hsv2rgb, sortByColor} from './ColorUtils'
 import {createCubeMesh} from './CubeUtils'
 
 const n = 6;   // number unit of point in circle
@@ -38,6 +38,32 @@ const createHSVCubes = () => {
   return ret;
 };
 
+const addHSVProps = (cubes) => {
+  const hsvProps = []
+  for (let i = 0; i <= steps; i++) {
+    const value = i / steps * 100.0;
+    for (let j = 0; j <= i; j++) {
+      const saturation = j / steps * 100.0;
+      const numCubes = Math.max(j * n, 1);
+      for (let k = 0; k < numCubes; k++) {
+        const degree = 360.0 / numCubes * k;
+        const color = hsv2rgb(degree, saturation, value);
+        const [x, y, z] = getCubePosition(degree, saturation, value);
+        hsvProps.push({
+          color: color,
+          position: [x, y, z],
+        });
+      }
+    }
+  }
+  hsvProps.sort(sortByColor);
+  for (let i = 0; i < cubes.length; i++) {
+    const cube = cubes[i];
+    cube.userData.HSV = hsvProps[i];
+  }
+  return;
+};
+
 
 const getCubePosition = (degree, saturation, value) =>{
   const radian = degree * Math.PI / 180.0;
@@ -49,4 +75,4 @@ const getCubePosition = (degree, saturation, value) =>{
   ];
 };
 
-export {createHSVCubes};
+export {createHSVCubes, addHSVProps};
