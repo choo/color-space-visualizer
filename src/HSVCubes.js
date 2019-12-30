@@ -1,7 +1,5 @@
-import * as THREE from "three";
-
 import {hsv2rgb} from './ColorUtils'
-import {createCubeMesh, OBJ_NAME} from './CubeUtils'
+import {createCubeMesh} from './CubeUtils'
 
 const n = 6;   // number unit of point in circle
 const maxRadius = 60;
@@ -17,7 +15,7 @@ const cubeSize = 3;
 
 
 const createHSVCubes = () => {
-  const ret = new THREE.Group(); 
+  const ret = []
   for (let i = 0; i <= steps; i++) {
     const value = i / steps * 100.0;
     for (let j = 0; j <= i; j++) {
@@ -33,11 +31,10 @@ const createHSVCubes = () => {
         //const pos = getCubePosition(degree, saturation, value);
         const [x, y, z] = getCubePosition(degree, saturation, value);
         const cube = createCubeMesh(cubeSize, color, x, y, z);
-        ret.add(cube);
+        ret.push(cube);
       }
     }
   }
-  ret.name = OBJ_NAME;
   return ret;
 };
 

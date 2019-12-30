@@ -7,12 +7,58 @@ import { createRGBCubes } from '../RGBCubes';
 import { createHSVCubes } from '../HSVCubes';
 import { OBJ_NAME} from '../CubeUtils'
 
+
+const _getPosition = (e, elm) => {
+  /*
+    "touchstart": "mousedown"
+    "touchmove" : "mousemove"
+    "touchend"  : "mouseup"
+    "click" -> PC only
+  */
+  if (e.type.startsWith('touch')) {
+    const x = e.targetTouches[0].pageX - elm.offsetLeft;
+    const y = e.targetTouches[0].pageY - elm.offsetTop;
+    return [x, y];
+  }
+  const x = e.clientX - elm.offsetLeft;
+  const y = e.clientY - elm.offsetTop;
+  return [x, y];
+};
+
+
+
+const getIntersectObject = (event, scene, camera) => {
+  const raycaster = new THREE.Raycaster();
+  event.preventDefault();
+  const elm = event.currentTarget;
+  const [x, y] = _getPosition(event, elm);
+  const w = elm.offsetWidth;
+  const h = elm.offsetHeight;
+  const coords = {
+    x :  (x / w) * 2 - 1,
+    y : -(y / h) * 2 + 1,
+  };
+  raycaster.setFromCamera(coords, camera);
+  const cubes = scene.children
+  const intersects = raycaster.intersectObjects(cubes); 
+  if (intersects.length > 0) {
+    const mesh = intersects[0].object;
+    if (mesh.name === OBJ_NAME) {
+      return mesh;
+    }
+  }
+  return null;
+};
+
+
 class ThreeColorSpace extends React.Component {
 
   constructor(props) {
     super(props);
     this.divRef = React.createRef();
     this.rendererRender = () => {};
+    this.selectedCube = null;
+    this.currentSpin = 0.0;
 
     this.attrs = {
       width :  800,
@@ -44,25 +90,42 @@ class ThreeColorSpace extends React.Component {
   componentDidMount() {
     const width = window.innerWidth;
     const height = window.innerHeight;
-
     const renderer = this.makeRenderer(width, height);
+    renderer.shadowMap.enabled = true;
+
     const camera = this.makeCamera(width, height);
     this.scene = this.makeScene();
+    const controls = this.makeOrbitControls(camera, renderer.domElement);
 
-    renderer.shadowMap.enabled = true;
     this.rendererRender = () => {renderer.render(this.scene, camera);};
-    this.addOrbitControl(camera, renderer.domElement, this.rendererRender);
 
     // attach click event
     const clicked = this.makeCallbackFunc(this.scene, camera);
-    //renderer.domElement.addEventListener('click', clicked);
-    renderer.domElement.addEventListener('mousedown', clicked);
-    //renderer.domElement.addEventListener('click', clicked);
+    renderer.domElement.addEventListener('click', clicked);
+    renderer.domElement.addEventListener('touchstart', clicked);
+    //renderer.domElement.addEventListener('mousedown', clicked);
 
     this.divRef.current.appendChild(renderer.domElement);
 
     this.updateCubes(this.props.model);
-    this.rendererRender(); // initial render
+
+    const tick = () => {
+      controls.update();
+      if (this.selectedCube) {
+        this.selectedCube.rotation.x += this.currentSpin;
+        this.selectedCube.rotation.y += this.currentSpin;
+        if (this.currentSpin > 0.1) {
+          this.currentSpin *= 0.9;
+        } else if (Math.abs(
+              this.selectedCube.rotation.y % (Math.PI / 2.0)) < 0.09) {
+          this.currentSpin = 0.0;
+          this.selectedCube.rotation.set(0, 0, 0);
+        }
+      }
+      this.rendererRender();
+      requestAnimationFrame(tick);
+    };
+    tick();
   }
 
   makeRenderer (width, height) {
@@ -128,55 +191,30 @@ class ThreeColorSpace extends React.Component {
     return scene;
   }
 
-  addObject (obj) {
-    this.scene.add(obj);
-  }
-
   addMeshes (meshes) {
     for (let mesh of meshes) {
       this.scene.add(mesh);
     }
   }
 
-  addOrbitControl (camera, elm, renderFunc) {
+  makeOrbitControls (camera, elm) {
     const controls = new OrbitControls(camera, elm)
     controls.target = new THREE.Vector3(...this.attrs.cameraLookAt);
-    controls.update();
-    controls.addEventListener('change', renderFunc);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.1;
+    return controls
   }
 
   makeCallbackFunc (scene, camera) {
-    const raycaster = new THREE.Raycaster();
-    const getIntersectObject = e => {
-      e.preventDefault();
-      const elm = e.currentTarget;
-      const x = e.clientX - elm.offsetLeft;
-      const y = e.clientY - elm.offsetTop;
-      const w = elm.offsetWidth;
-      const h = elm.offsetHeight;
-      const coords = {
-        x :  (x / w) * 2 - 1,
-        y : -(y / h) * 2 + 1,
-      };
-      raycaster.setFromCamera(coords, camera);
-      //const intersects = raycaster.intersectObjects(scene.children); 
-      const cubes = scene.getObjectByName(OBJ_NAME).children
-      const intersects = raycaster.intersectObjects(cubes); 
-      if (intersects.length > 0) {
-        const mesh = intersects[0].object;
-        return mesh;
-      }
-      return null;
-    };
-
     const onClicked = (e) => {
-      const mesh = getIntersectObject(e);
+      const mesh = getIntersectObject(e, scene, camera);
       if (mesh) {
-        const position = mesh.position;
+        this.selectedCube = mesh;
+        this.currentSpin = 1.0;
         const color = mesh.material.color;
         const rgb = color.getHexString();
+        //mesh.material.color.setHex(0xff0000);
         //const hsl = color.getHSL();
-        console.log(position, rgb);
         this.props.onSelectColor(`#${rgb}`);
       }
     };
@@ -184,24 +222,22 @@ class ThreeColorSpace extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    this.updateCubes(nextProps.model);
+    if (this.props.model !== nextProps.model) {
+      this.updateCubes(nextProps.model);
+    }
     return false;
   }
 
   updateCubes(model) {
-    const prev = this.scene.getObjectByName(OBJ_NAME);
-    this.scene.remove(prev);
-
-    //for (let obj of this.scene.children) {
-    //  if (obj.type === 'Mesh') {
-    //    console.log(obj);
-    //    this.scene.remove(obj);
-    //  }
-    //}
+    for (let obj of this.scene.children) {
+      if (obj.name === OBJ_NAME) {
+        this.scene.remove(obj);
+      }
+    }
     if (model === 'RGB') {
-      this.addObject(createRGBCubes());
+      this.addMeshes(createRGBCubes());
     } else {
-      this.addObject(createHSVCubes());
+      this.addMeshes(createHSVCubes());
     }
     this.rendererRender();
   }
