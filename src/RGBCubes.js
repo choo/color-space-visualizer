@@ -1,7 +1,5 @@
-import * as THREE from "three";
-
 import {rgb2str} from './ColorUtils'
-import {createCubeMesh, OBJ_NAME} from './CubeUtils'
+import {createCubeMesh} from './CubeUtils'
 
 const n = 8;
 const cubeSize = 3;
@@ -15,18 +13,17 @@ const colorSpacing = 256 / n;
 
 
 const createRGBCubes = () => {
-  const ret = new THREE.Group(); 
+  const ret = []
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < n; j++) {
       for (let k = 0; k < n; k++) {
         const color = getCubeColor(i, j, k);
         const [x, y, z] = getCubePosition(i, j, k);
         const cube = createCubeMesh(cubeSize, color, x, y, z);
-        ret.add(cube);
+        ret.push(cube);
       }
     }
   }
-  ret.name = OBJ_NAME;
   return ret;
 };
 
