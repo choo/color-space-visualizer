@@ -41,7 +41,7 @@ const getIntersectObject = (event, scene, camera) => {
   const coords = _getEventCoords(event);
   raycaster.setFromCamera(coords, camera);
   const cubes = scene.children
-  const intersects = raycaster.intersectObjects(cubes); 
+  const intersects = raycaster.intersectObjects(cubes);
   if (intersects.length > 0) {
     const mesh = intersects[0].object;
     if (mesh.name === OBJ_NAME) {
