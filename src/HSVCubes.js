@@ -1,4 +1,4 @@
-import {hsv2rgb, sortByColor} from './ColorUtils'
+import {hsv2rgb} from './ColorUtils'
 import {createCubeMesh} from './CubeUtils'
 
 const n = 6;   // number unit of point in circle
@@ -56,12 +56,22 @@ const addHSVProps = (cubes) => {
       }
     }
   }
-  hsvProps.sort(sortByColor);
+  hsvProps.sort(_sortByColor);
   for (let i = 0; i < cubes.length; i++) {
     const cube = cubes[i];
     cube.userData.HSV = hsvProps[i];
   }
   return;
+};
+
+const _sortByColor = (a, b) => {
+  if (a.color > b.color) {
+      return 1;
+  }
+  if (a.color < b.color ) {
+      return -1;
+  }
+  return 0;
 };
 
 

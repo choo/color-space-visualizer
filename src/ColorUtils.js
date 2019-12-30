@@ -23,16 +23,6 @@ const hsl2str = (h, s, l) => {
       Math.round(100.0 * l) + "%)";
 };
 
-const sortByColor = (a, b) => {
-  if (a.color > b.color) {
-      return 1;
-  }
-  if (a.color < b.color ) {
-      return -1;
-  }
-  return 0;
-};
-
 /**
  * @param {Number} h degree of Hue in HSV color model (0 - 359)
  * @param {Number} s percentage of Saturation in HSV color model (0 - 100)
@@ -100,4 +90,4 @@ const _to8bitsInteger = val => {
 };
 
 
-export { rgb2str, rgb2hex, hsl2str, hsv2rgb, sortByColor };
+export { rgb2str, rgb2hex, hsl2str, hsv2rgb };

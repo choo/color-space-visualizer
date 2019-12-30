@@ -1,4 +1,4 @@
-import {rgb2hex, sortByColor} from './ColorUtils'
+import {rgb2hex} from './ColorUtils'
 import {createCubeMesh} from './CubeUtils'
 
 const n = 8;
@@ -28,9 +28,20 @@ const createRGBCubes = () => {
       }
     }
   }
-  ret.sort(sortByColor);
+  ret.sort(_sortByColor);
   return ret;
 };
+
+const _sortByColor = (a, b) => {
+  if (a.userData.RGB.color > b.userData.RGB.color) {
+      return 1;
+  }
+  if (a.userData.RGB.color < b.userData.RGB.color ) {
+      return -1;
+  }
+  return 0;
+};
+
 
 
 const getCubeColor = (i, j, k) => {
