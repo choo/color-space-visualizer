@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-export const OBJ_NAME = 'CUBES';
+export const OBJ_NAME = 'COLOR_CUBE';
 
 export const createCubeMesh = (size, color, x, y, z) => {
   const geometry = new THREE.CubeGeometry(size, size, size);
