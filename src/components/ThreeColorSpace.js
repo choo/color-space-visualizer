@@ -113,15 +113,16 @@ class ThreeColorSpace extends React.Component {
 
     const tick = () => {
       controls.update();
-      if (this.selectedCube) {
+      if (this.selectedCube && this.currentSpin) {
         this.selectedCube.rotation.x += this.currentSpin;
         this.selectedCube.rotation.y += this.currentSpin;
         if (this.currentSpin > 0.1) {
-          this.currentSpin *= 0.9;
+          this.currentSpin *= 0.93;
         } else if (Math.abs(
               this.selectedCube.rotation.y % (Math.PI / 2.0)) < 0.09) {
           this.currentSpin = 0.0;
           this.selectedCube.rotation.set(0, 0, 0);
+          this.unhighlightCubes();
         }
       }
       this.rendererRender();
@@ -201,6 +202,19 @@ class ThreeColorSpace extends React.Component {
     }
   };
 
+  highlightCubes () {
+    for (let cube of this.cubes) {
+      cube.material.opacity = 0.2;
+    }
+    this.selectedCube.material.opacity = 1.0;
+  }
+
+  unhighlightCubes () {
+    for (let cube of this.cubes) {
+      cube.material.opacity = 1.0;
+    }
+  }
+
   makeOrbitControls (camera, elm) {
     const controls = new OrbitControls(camera, elm)
     controls.target = new THREE.Vector3(...this.attrs.cameraLookAt);
@@ -222,14 +236,14 @@ class ThreeColorSpace extends React.Component {
       if (coords.x !== this.evtCoords.x || coords.y !== this.evtCoords.y) {
         return;
       }
-      const mesh = getIntersectObject(e, scene, camera);
-      if (mesh) {
-        this.selectedCube = mesh;
+      const selected = getIntersectObject(e, scene, camera);
+      if (selected) {
+        this.selectedCube = selected;
         this.currentSpin = 1.0;
-        const color = mesh.material.color;
+        const color = this.selectedCube.material.color;
         const rgb = color.getHexString();
-        //mesh.material.color.setHex(0xff0000);
         //const hsl = color.getHSL();
+        this.highlightCubes();
         this.props.onSelectColor(`#${rgb}`);
       }
     };
