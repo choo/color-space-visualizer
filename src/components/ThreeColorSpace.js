@@ -8,7 +8,7 @@ import { createHSVCubes } from '../HSVCubes';
 import { OBJ_NAME} from '../CubeUtils'
 
 
-const _getPosition = (e, elm) => {
+const _getEventCoords = (e, elm) => {
   /*
     "touchstart": "mousedown"
     "touchmove" : "mousemove"
@@ -31,7 +31,7 @@ const getIntersectObject = (event, scene, camera) => {
   const raycaster = new THREE.Raycaster();
   event.preventDefault();
   const elm = event.currentTarget;
-  const [x, y] = _getPosition(event, elm);
+  const [x, y] = _getEventCoords(event, elm);
   const w = elm.offsetWidth;
   const h = elm.offsetHeight;
   const coords = {
