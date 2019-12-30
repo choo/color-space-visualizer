@@ -8,6 +8,7 @@ export const createCubeMesh = (size, color, x, y, z) => {
   const mesh = new THREE.Mesh(geometry, material);
   mesh.castShadow = true;
   mesh.receiveShadow = true;
+  mesh.material.transparent = true;
   mesh.position.set(x, y, z);
   mesh.name = OBJ_NAME;
   return mesh;
