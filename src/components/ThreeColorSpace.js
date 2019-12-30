@@ -127,13 +127,6 @@ class ThreeColorSpace extends React.Component {
   }
 
   addObject (obj) {
-    console.log(obj);
-    for (let child of obj.children) {
-      if (child.type === 'Mesh') {
-        child.castShadow = true;
-        child.receiveShadow = true;
-      }
-    }
     this.scene.add(obj);
   }
 
