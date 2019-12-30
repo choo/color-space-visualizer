@@ -35,7 +35,7 @@ class ThreeColorSpace extends React.Component {
           castShadow: true,
           config: [0xffffff, 1, 500], // color, strength, distance, decay
           //position: [0, 150, 0]
-          position: [50, 150, 50]
+          position: [0, 300, 0]
         },
       },
     };
@@ -105,22 +105,24 @@ class ThreeColorSpace extends React.Component {
       const plane = new THREE.Mesh(
         new THREE.PlaneGeometry(1200,1200,2),
 
-        //new THREE.ShadowMaterial({
         new THREE.MeshStandardMaterial({
-        //new THREE.MeshBasicMaterial({
           //color: 0x888888,
-          color : 0x303030,
+          color : 0x404040,
+          //color : 0x303030,
           side: THREE.DoubleSide,
-          //wireframe: true,
           transparent: true,
           opacity: 0.85,
         })
       );
-      plane.rotation.set(Math.PI / 2.0, 0, 0)
+      plane.position.set(0, -1, 0);
+      plane.rotation.set(Math.PI / 2.0, 0, 0);
       plane.castShadow = false;
       plane.receiveShadow = true;
 
       scene.add(plane);
+
+      const gridLineColor = 0x606060;
+      scene.add(new THREE.GridHelper(1200, 60, gridLineColor, gridLineColor));
     }
 
     return scene;
