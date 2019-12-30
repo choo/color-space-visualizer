@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.js": "/color-space-visualizer/static/js/main.058ec3ff.chunk.js",
+    "main.js.map": "/color-space-visualizer/static/js/main.058ec3ff.chunk.js.map",
+    "runtime-main.js": "/color-space-visualizer/static/js/runtime-main.01576c8c.js",
+    "runtime-main.js.map": "/color-space-visualizer/static/js/runtime-main.01576c8c.js.map",
+    "static/js/2.bbabb180.chunk.js": "/color-space-visualizer/static/js/2.bbabb180.chunk.js",
+    "static/js/2.bbabb180.chunk.js.map": "/color-space-visualizer/static/js/2.bbabb180.chunk.js.map",
+    "index.html": "/color-space-visualizer/index.html",
+    "precache-manifest.5b4e7cc023ba5ae67ce45c80a5466249.js": "/color-space-visualizer/precache-manifest.5b4e7cc023ba5ae67ce45c80a5466249.js",
+    "service-worker.js": "/color-space-visualizer/service-worker.js",
+    "static/js/2.bbabb180.chunk.js.LICENSE": "/color-space-visualizer/static/js/2.bbabb180.chunk.js.LICENSE"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.01576c8c.js",
+    "static/js/2.bbabb180.chunk.js",
+    "static/js/main.058ec3ff.chunk.js"
+  ]
+}
