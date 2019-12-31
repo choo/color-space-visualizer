@@ -31,6 +31,16 @@ const makeButtonsStyle = (theme, space) => {
 };
 
 const useStyles = makeStyles(theme => ({
+  wrapper: {
+    backgroundColor: '#262626',
+    //backgroundColor: '#DDDDDD',
+  },
+  container: {
+    position: 'relative',
+    padding: 0,
+    borderRight: '1px solid #f50057',
+    borderLeft : '1px solid #f50057',
+  },
   header: {
     position: 'absolute',
     flexGrow: 1,
