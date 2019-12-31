@@ -14,19 +14,19 @@ const _getEventCoords = (e) => {
    */
   let x, y;
   const elm = e.currentTarget;
-  if (e.type === 'touchstart' || e.type === 'touchend') {
-    if (e.targetTouches && e.targetTouches.length) {
-      x = e.targetTouches[0].pageX - elm.offsetParent.offsetLeft;
-      y = e.targetTouches[0].pageY - elm.offsetParent.offsetTop;
-    } else {
-      x = e.changedTouches[0].pageX - elm.offsetParent.offsetLeft;
-      y = e.changedTouches[0].pageY - elm.offsetParent.offsetTop;
-    }
+  if (e.targetTouches && e.targetTouches.length) {
+    x = e.targetTouches[0].pageX;
+    y = e.targetTouches[0].pageY;
+  } else if (e.changedTouches && e.changedTouches.length){
+    x = e.changedTouches[0].pageX;
+    y = e.changedTouches[0].pageY;
   } else {
     // mousedown, mouseup, mousemove or click
-    x = e.clientX - elm.offsetParent.offsetLeft;
-    y = e.clientY - elm.offsetParent.offsetTop;
+    x = e.clientX
+    y = e.clientY
   }
+  x -= elm.offsetParent.offsetLeft;
+  y -= elm.offsetParent.offsetTop;
   const w = elm.offsetWidth;
   const h = elm.offsetHeight;
   const coords = {
