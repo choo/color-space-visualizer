@@ -14,9 +14,15 @@ const App = (props) => {
   const classes = useStyles();
   const [model, setModel] = useState('RGB');
   const [selecedColor, setColor] = useState('#fff');
+  const [previewing, setPreviewing] = useState(false);
+
   const getVariant = (modelName) => {
     return model === modelName ? "contained" : "outlined";
   }
+  const togglePreview = () => {
+    setPreviewing(!previewing);
+  };
+
   return (
     <div className={classes.wrapper}>
       <Container maxWidth="md" className={classes.container}>
@@ -25,15 +31,28 @@ const App = (props) => {
         </div>
         <ThreeColorSpace
           model={model}
+          previewing={previewing}
           onSelectColor={rgb => {setColor(rgb)}}
         />
 
         <div className={classes.controlButtons}>
-          <Box
+          {/*
+          {
+            previewing ? (
+              <Typography>
+                {selecedColor}
+              </Typography>
+            ) : null
+          }
+          */}
+          <Button
             className={classes.colorPreview}
             style={{backgroundColor: selecedColor}}
-            aria-label="selected color"
-          />
+            onClick={togglePreview}
+            aria-label="color preview"
+          >
+            {selecedColor}
+          </Button>
 
           <ButtonGroup
             className={classes.buttons}
