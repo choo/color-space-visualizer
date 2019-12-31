@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -17,7 +18,8 @@ const App = (props) => {
     return model === modelName ? "contained" : "outlined";
   }
   return (
-    <>
+  <div className={classes.wrapper}>
+    <Container maxWidth="md" className={classes.container}>
       <div className={classes.header}>
         <img  className={classes.logo} src={'logo_20_02.png'} alt={'logo'} />
       </div>
@@ -50,7 +52,8 @@ const App = (props) => {
         style={{backgroundColor: selecedColor}}
         aria-label="selected color"
       />
-    </>
+    </Container>
+  </div>
   );
 };
 

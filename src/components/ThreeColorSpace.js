@@ -16,16 +16,16 @@ const _getEventCoords = (e) => {
   const elm = e.currentTarget;
   if (e.type === 'touchstart' || e.type === 'touchend') {
     if (e.targetTouches && e.targetTouches.length) {
-      x = e.targetTouches[0].pageX - elm.offsetLeft;
-      y = e.targetTouches[0].pageY - elm.offsetTop;
+      x = e.targetTouches[0].pageX - elm.offsetParent.offsetLeft;
+      y = e.targetTouches[0].pageY - elm.offsetParent.offsetTop;
     } else {
-      x = e.changedTouches[0].pageX - elm.offsetLeft;
-      y = e.changedTouches[0].pageY - elm.offsetTop;
+      x = e.changedTouches[0].pageX - elm.offsetParent.offsetLeft;
+      y = e.changedTouches[0].pageY - elm.offsetParent.offsetTop;
     }
   } else {
     // mousedown, mouseup, mousemove or click
-    x = e.clientX - elm.offsetLeft;
-    y = e.clientY - elm.offsetTop;
+    x = e.clientX - elm.offsetParent.offsetLeft;
+    y = e.clientY - elm.offsetParent.offsetTop;
   }
   const w = elm.offsetWidth;
   const h = elm.offsetHeight;
@@ -93,7 +93,7 @@ class ThreeColorSpace extends React.Component {
   }
 
   componentDidMount() {
-    const width = window.innerWidth;
+    const width = this.divRef.current.parentNode.offsetWidth - 2;
     const height = window.innerHeight;
     const renderer = this.makeRenderer(width, height);
     renderer.shadowMap.enabled = true;
