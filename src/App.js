@@ -27,6 +27,13 @@ const App = (props) => {
         model={model}
         onSelectColor={rgb => {setColor(rgb)}}
       />
+
+      <div className={classes.controlButtons}>
+      <Box
+        className={classes.colorPreview}
+        style={{backgroundColor: selecedColor}}
+        aria-label="selected color"
+      />
       <ButtonGroup
         className={classes.buttons}
         orientation="vertical"
@@ -47,11 +54,7 @@ const App = (props) => {
         </Button>
       </ButtonGroup>
 
-      <Box
-        className={classes.colorPreview}
-        style={{backgroundColor: selecedColor}}
-        aria-label="selected color"
-      />
+      </div>
     </Container>
   </div>
   );
