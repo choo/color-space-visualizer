@@ -126,7 +126,9 @@ class ThreeColorSpace extends React.Component {
               this.selectedCube.rotation.y % (Math.PI / 2.0)) < 0.09) {
           this.currentSpin = 0.0;
           this.selectedCube.rotation.set(0, 0, 0);
-          this.unhighlightCubes();
+          if (!this.props.previewing) {
+            this.unhighlightCubes();
+          }
         }
       }
       this.rendererRender();
@@ -204,6 +206,7 @@ class ThreeColorSpace extends React.Component {
     for (let cube of this.cubes) {
       this.scene.add(cube);
     }
+    this.selectedCube = this.cubes[0];
   };
 
   highlightCubes () {
@@ -257,6 +260,11 @@ class ThreeColorSpace extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (this.props.model !== nextProps.model) {
       this.updateCubes(nextProps.model);
+    }
+    if (nextProps.previewing && this.selectedCube) {
+      this.highlightCubes();
+    } else {
+      this.unhighlightCubes();
     }
     return false;
   }
