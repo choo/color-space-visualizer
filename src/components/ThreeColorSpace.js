@@ -248,6 +248,8 @@ class ThreeColorSpace extends React.Component {
       }
       const selected = getIntersectObject(e, scene, camera);
       if (selected) {
+        /* reset rotation of previously selected */
+        this.selectedCube.rotation.set(0, 0, 0);
         this.selectedCube = selected;
         this.currentSpin = 1.0;
         const color = this.selectedCube.material.color;
