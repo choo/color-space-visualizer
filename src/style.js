@@ -23,10 +23,11 @@ const makeLogoStyle = (height) => {
     height: height,
   };
 };
+
 const makeButtonsStyle = (theme, space) => {
   return {
     bottom: theme.spacing(space),
-    left: theme.spacing(space),
+    right: theme.spacing(space),
   };
 };
 
@@ -54,18 +55,19 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('sm')]  : makeLogoStyle(logoSize.md),
     [theme.breakpoints.up('lg')]  : makeLogoStyle(logoSize.lg),
   },
-  buttons: {
+  controlButtons: {
     position: 'absolute',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
     [theme.breakpoints.down('sm')]: makeButtonsStyle(theme, SPACING.sm),
     [theme.breakpoints.up('sm')]  : makeButtonsStyle(theme, SPACING.md),
     [theme.breakpoints.up('lg')]  : makeButtonsStyle(theme, SPACING.lg),
   },
   colorPreview: {
-    position: 'absolute',
-    width: '100px',
-    height: '100px',
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
+    marginBottom: 16,
+    width: 127,
+    height: 60,
   },
 }));
 
