@@ -13,7 +13,7 @@ import ThreeColorSpace from './components/ThreeColorSpace';
 const App = (props) => {
   const classes = useStyles();
   const [model, setModel] = useState('RGB');
-  const [selecedColor, setColor] = useState('#fff');
+  const [selecedColor, setColor] = useState('#ffffff');
   const [previewing, setPreviewing] = useState(false);
 
   const getVariant = (modelName) => {

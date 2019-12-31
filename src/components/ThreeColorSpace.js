@@ -209,7 +209,7 @@ class ThreeColorSpace extends React.Component {
     for (let cube of this.cubes) {
       this.scene.add(cube);
     }
-    this.selectedCube = this.cubes[0];
+    this.selectedCube = this.cubes.slice(-1)[0];
   };
 
   highlightCubes () {
