@@ -18,45 +18,45 @@ const App = (props) => {
     return model === modelName ? "contained" : "outlined";
   }
   return (
-  <div className={classes.wrapper}>
-    <Container maxWidth="md" className={classes.container}>
-      <div className={classes.header}>
-        <img  className={classes.logo} src={'logo_20_02.png'} alt={'logo'} />
-      </div>
-      <ThreeColorSpace
-        model={model}
-        onSelectColor={rgb => {setColor(rgb)}}
-      />
+    <div className={classes.wrapper}>
+      <Container maxWidth="md" className={classes.container}>
+        <div className={classes.header}>
+          <img  className={classes.logo} src={'logo_20_02.png'} alt={'logo'} />
+        </div>
+        <ThreeColorSpace
+          model={model}
+          onSelectColor={rgb => {setColor(rgb)}}
+        />
 
-      <div className={classes.controlButtons}>
-      <Box
-        className={classes.colorPreview}
-        style={{backgroundColor: selecedColor}}
-        aria-label="selected color"
-      />
-      <ButtonGroup
-        className={classes.buttons}
-        orientation="vertical"
-        color="secondary"
-        aria-label="vertical outlined primary button group"
-      >
-        <Button
-          variant={getVariant('RGB')}
-          onClick={e => {setModel('RGB')}}
-        >
-          RGB
-        </Button>
-        <Button
-          variant={getVariant('HSV')}
-          onClick={e => {setModel('HSV')}}
-        >
-          HSV
-        </Button>
-      </ButtonGroup>
+        <div className={classes.controlButtons}>
+          <Box
+            className={classes.colorPreview}
+            style={{backgroundColor: selecedColor}}
+            aria-label="selected color"
+          />
 
-      </div>
-    </Container>
-  </div>
+          <ButtonGroup
+            className={classes.buttons}
+            orientation="vertical"
+            color="secondary"
+            aria-label="vertical outlined primary button group"
+          >
+            <Button
+              variant={getVariant('RGB')}
+              onClick={e => {setModel('RGB')}}
+            >
+              RGB
+            </Button>
+            <Button
+              variant={getVariant('HSV')}
+              onClick={e => {setModel('HSV')}}
+            >
+              HSV
+            </Button>
+          </ButtonGroup>
+        </div>
+      </Container>
+    </div>
   );
 };
 
