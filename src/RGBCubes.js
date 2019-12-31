@@ -9,7 +9,7 @@ const spacing = 8;
 const offset = [0, 80, 0];
 
 const totalSize = cubeSize * n + spacing * (n - 1);
-const colorSpacing = 256 / n;
+const colorSpacing = 255.0 / (n - 1);
 
 
 const createRGBCubes = () => {
@@ -46,9 +46,9 @@ const _sortByColor = (a, b) => {
 
 const getCubeColor = (i, j, k) => {
   return rgb2hex(
-    i * colorSpacing,
-    j * colorSpacing,
-    k * colorSpacing
+    Math.round(i * colorSpacing),
+    Math.round(j * colorSpacing),
+    Math.round(k * colorSpacing)
   );
 };
 
