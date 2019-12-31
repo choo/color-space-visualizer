@@ -14,10 +14,14 @@ const _getEventCoords = (e) => {
    */
   let x, y;
   const elm = e.currentTarget;
-  if (e.type.startsWith('touch')) {
-    // touchstart, touchmove or touchend
-    x = e.targetTouches[0].pageX - elm.offsetLeft;
-    y = e.targetTouches[0].pageY - elm.offsetTop;
+  if (e.type === 'touchstart' || e.type === 'touchend') {
+    if (e.targetTouches && e.targetTouches.length) {
+      x = e.targetTouches[0].pageX - elm.offsetLeft;
+      y = e.targetTouches[0].pageY - elm.offsetTop;
+    } else {
+      x = e.changedTouches[0].pageX - elm.offsetLeft;
+      y = e.changedTouches[0].pageY - elm.offsetTop;
+    }
   } else {
     // mousedown, mouseup, mousemove or click
     x = e.clientX - elm.offsetLeft;
