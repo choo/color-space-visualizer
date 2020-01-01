@@ -266,10 +266,12 @@ class ThreeColorSpace extends React.Component {
     if (this.props.model !== nextProps.model) {
       this.updateCubes(nextProps.model);
     }
-    if (nextProps.previewing && this.selectedCube) {
-      this.highlightCubes();
-    } else {
-      this.unhighlightCubes();
+    if (this.props.previewing !== nextProps.previewing) {
+      if (nextProps.previewing) {
+        this.highlightCubes();
+      } else {
+        this.unhighlightCubes();
+      }
     }
     return false;
   }
