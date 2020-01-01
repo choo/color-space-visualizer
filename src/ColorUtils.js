@@ -23,6 +23,26 @@ const hsl2str = (h, s, l) => {
       Math.round(100.0 * l) + "%)";
 };
 
+const selectTextColor = (rgbStr) => {
+  const toRgbItem = val => {
+    const x = val / 255.0;
+    return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4);
+  }
+  const r = toRgbItem(parseInt(rgbStr.slice(1, 3), 16));
+  const g = toRgbItem(parseInt(rgbStr.slice(3, 5), 16));
+  const b = toRgbItem(parseInt(rgbStr.slice(5, 7), 16));
+  const luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+
+  const lumaWhite = 1.0;
+  const lumaBlack = 0.0;
+
+  /* calc contrast ratio */
+  const white = (lumaWhite + 0.05) / (luma + 0.05)
+  const black = (luma + 0.05) / (lumaBlack + 0.05)
+  return white < black ? '#000000' : '#ffffff'
+};
+
+
 /**
  * @param {Number} h degree of Hue in HSV color model (0 - 359)
  * @param {Number} s percentage of Saturation in HSV color model (0 - 100)
@@ -92,4 +112,4 @@ const _to8bitsInteger = val => {
 };
 
 
-export { rgb2str, rgb2hex, hsl2str, hsv2rgb };
+export { rgb2str, rgb2hex, hsl2str, hsv2rgb, selectTextColor };

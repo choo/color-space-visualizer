@@ -4,6 +4,7 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import {selectTextColor} from './ColorUtils';
 
 import useStyles from './style.js'
 
@@ -47,7 +48,10 @@ const App = (props) => {
           */}
           <Button
             className={classes.colorPreview}
-            style={{backgroundColor: selecedColor}}
+            style={{
+              backgroundColor: selecedColor,
+              color: selectTextColor(selecedColor),
+            }}
             onClick={togglePreview}
             aria-label="color preview"
           >
