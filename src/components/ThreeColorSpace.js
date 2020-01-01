@@ -74,22 +74,6 @@ class ThreeColorSpace extends React.Component {
     tick();
   }
 
-  spinSelectedCube () {
-    this.selectedCube.rotation.x += this.currentSpin;
-    this.selectedCube.rotation.y += this.currentSpin;
-    if (this.currentSpin > 0.1) {
-      this.currentSpin *= 0.93;
-    } else if (Math.abs(
-          this.selectedCube.rotation.y % (Math.PI / 2.0)) < 0.09) {
-      /* spinning stop */
-      this.currentSpin = 0.0;
-      this.selectedCube.rotation.set(0, 0, 0);
-      if (!this.props.previewing) {
-        this.unhighlightCubes();
-      }
-    }
-  }
-
   makeRenderer (width, height) {
     const renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setSize(width, height);
@@ -122,6 +106,15 @@ class ThreeColorSpace extends React.Component {
     }
 
     /* plane settings */
+    const plane = this.makePlane();
+    scene.add(plane);
+    const gridLineColor = 0x606060;
+    scene.add(new THREE.GridHelper(1200, 60, gridLineColor, gridLineColor));
+
+    return scene;
+  }
+
+  makePlane () {
     const plane = new THREE.Mesh(
       new THREE.PlaneGeometry(1200, 1200, 2),
       new THREE.MeshStandardMaterial({
@@ -135,13 +128,7 @@ class ThreeColorSpace extends React.Component {
     plane.rotation.set(Math.PI / 2.0, 0, 0);
     plane.castShadow = false;
     plane.receiveShadow = true;
-
-    scene.add(plane);
-
-    const gridLineColor = 0x606060;
-    scene.add(new THREE.GridHelper(1200, 60, gridLineColor, gridLineColor));
-
-    return scene;
+    return plane;
   }
 
   makeOrbitControls (camera, elm) {
@@ -150,6 +137,22 @@ class ThreeColorSpace extends React.Component {
     controls.enableDamping = true;
     controls.dampingFactor = 0.1;
     return controls
+  }
+
+  spinSelectedCube () {
+    this.selectedCube.rotation.x += this.currentSpin;
+    this.selectedCube.rotation.y += this.currentSpin;
+    if (this.currentSpin > 0.1) {
+      this.currentSpin *= 0.93;
+    } else if (Math.abs(
+          this.selectedCube.rotation.y % (Math.PI / 2.0)) < 0.09) {
+      /* spinning stop */
+      this.currentSpin = 0.0;
+      this.selectedCube.rotation.set(0, 0, 0);
+      if (!this.props.previewing) {
+        this.unhighlightCubes();
+      }
+    }
   }
 
   makeEventStart () {
@@ -165,7 +168,7 @@ class ThreeColorSpace extends React.Component {
       if (coords.x !== this.evtCoords.x || coords.y !== this.evtCoords.y) {
         return;
       }
-      const selected = getIntersectObject(e, scene, camera);
+      const selected = this.getIntersectCubes(e, camera);
       if (selected) {
         /* reset rotation of previously selected */
         this.selectedCube.rotation.set(0, 0, 0);
@@ -224,6 +227,23 @@ class ThreeColorSpace extends React.Component {
     }
   }
 
+  getIntersectCubes = (event, camera) => {
+    const raycaster = new THREE.Raycaster();
+    event.preventDefault();
+    const coords = _getEventCoords(event);
+    raycaster.setFromCamera(coords, camera);
+    const cubes = this.scene.children
+    const intersects = raycaster.intersectObjects(cubes);
+    if (intersects.length > 0) {
+      const mesh = intersects[0].object;
+      if (mesh.name === OBJ_NAME) {
+        return mesh;
+      }
+    }
+    return null;
+  };
+
+
   render() {
     return (
       <div ref={this.divRef}/>
@@ -231,10 +251,6 @@ class ThreeColorSpace extends React.Component {
   }
 }
 
-
-/*
- * event handling
- */
 
 const _getEventCoords = (e) => {
   /*
@@ -262,23 +278,6 @@ const _getEventCoords = (e) => {
     y : -(y / h) * 2 + 1,
   };
   return coords;
-};
-
-
-const getIntersectObject = (event, scene, camera) => {
-  const raycaster = new THREE.Raycaster();
-  event.preventDefault();
-  const coords = _getEventCoords(event);
-  raycaster.setFromCamera(coords, camera);
-  const cubes = scene.children
-  const intersects = raycaster.intersectObjects(cubes);
-  if (intersects.length > 0) {
-    const mesh = intersects[0].object;
-    if (mesh.name === OBJ_NAME) {
-      return mesh;
-    }
-  }
-  return null;
 };
 
 
