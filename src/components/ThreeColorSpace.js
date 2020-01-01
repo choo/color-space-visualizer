@@ -10,7 +10,7 @@ import { OBJ_NAME} from '../CubeUtils';
 
 const _getEventCoords = (e) => {
   /*
-   * get coordinates in target element in which event occured
+   * get coordinates of touch or mouse event in the target element
    */
   let x, y;
   const elm = e.currentTarget;
@@ -21,7 +21,7 @@ const _getEventCoords = (e) => {
     x = e.changedTouches[0].pageX;
     y = e.changedTouches[0].pageY;
   } else {
-    // mousedown, mouseup, mousemove or click
+    /* mousedown, mouseup, mousemove or click */
     x = e.clientX
     y = e.clientY
   }
