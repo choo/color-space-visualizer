@@ -4,7 +4,6 @@ import {createCubeMesh} from './CubeUtils';
 const n = 8;
 const cubeSize = 3;
 
-//const spacing = 6;
 const spacing = 8;
 const offset = [0, 80, 0];
 
@@ -41,7 +40,6 @@ const _sortByColor = (a, b) => {
   }
   return 0;
 };
-
 
 
 const getCubeColor = (i, j, k) => {

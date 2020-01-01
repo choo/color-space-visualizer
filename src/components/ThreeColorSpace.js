@@ -8,53 +8,6 @@ import { addHSVProps } from '../HSVCubes';
 import { OBJ_NAME} from '../CubeUtils';
 
 
-const _getEventCoords = (e) => {
-  /*
-   * get coordinates of touch or mouse event in the target element
-   */
-  let x, y;
-  const elm = e.currentTarget;
-  if (e.targetTouches && e.targetTouches.length) {
-    x = e.targetTouches[0].pageX;
-    y = e.targetTouches[0].pageY;
-  } else if (e.changedTouches && e.changedTouches.length){
-    x = e.changedTouches[0].pageX;
-    y = e.changedTouches[0].pageY;
-  } else {
-    /* mousedown, mouseup, mousemove or click */
-    x = e.clientX
-    y = e.clientY
-  }
-  x -= elm.offsetParent.offsetLeft;
-  y -= elm.offsetParent.offsetTop;
-  const w = elm.offsetWidth;
-  const h = elm.offsetHeight;
-  const coords = {
-    x :  (x / w) * 2 - 1,
-    y : -(y / h) * 2 + 1,
-  };
-  return coords;
-};
-
-
-
-const getIntersectObject = (event, scene, camera) => {
-  const raycaster = new THREE.Raycaster();
-  event.preventDefault();
-  const coords = _getEventCoords(event);
-  raycaster.setFromCamera(coords, camera);
-  const cubes = scene.children
-  const intersects = raycaster.intersectObjects(cubes);
-  if (intersects.length > 0) {
-    const mesh = intersects[0].object;
-    if (mesh.name === OBJ_NAME) {
-      return mesh;
-    }
-  }
-  return null;
-};
-
-
 class ThreeColorSpace extends React.Component {
 
   constructor(props) {
@@ -81,11 +34,8 @@ class ThreeColorSpace extends React.Component {
       lights: {
         ambient: [0xffffff, 1.0],  // color, strength
         point: {
-          //config: [0xffffff, 1, 100], // color, strength, distance, decay
-          //position: [0, 100, 0],
           castShadow: true,
           config: [0xffffff, 1, 500], // color, strength, distance, decay
-          //position: [0, 150, 0]
           position: [0, 300, 0]
         },
       },
@@ -104,7 +54,7 @@ class ThreeColorSpace extends React.Component {
 
     this.rendererRender = () => {renderer.render(this.scene, camera);};
 
-    // attach click event
+    /* attach click event */
     const clickStart = this.makeEventStart();
     const clickEnd = this.makeEventEnd(this.scene, camera);
     renderer.domElement.addEventListener('mousedown',  clickStart);
@@ -171,58 +121,27 @@ class ThreeColorSpace extends React.Component {
       scene.add(light);
     }
 
-    /* scene settings */
-    //scene.add(new THREE.AxesHelper(1000));
-    if (false) {
-      scene.add(new THREE.GridHelper(1200, 60, 0x888888));
-    } else {
+    /* plane settings */
+    const plane = new THREE.Mesh(
+      new THREE.PlaneGeometry(1200, 1200, 2),
+      new THREE.MeshStandardMaterial({
+        color : 0x404040,
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 0.85,
+      })
+    );
+    plane.position.set(0, -1, 0);
+    plane.rotation.set(Math.PI / 2.0, 0, 0);
+    plane.castShadow = false;
+    plane.receiveShadow = true;
 
-      const plane = new THREE.Mesh(
-        new THREE.PlaneGeometry(1200,1200,2),
+    scene.add(plane);
 
-        new THREE.MeshStandardMaterial({
-          //color: 0x888888,
-          color : 0x404040,
-          //color : 0x303030,
-          side: THREE.DoubleSide,
-          transparent: true,
-          opacity: 0.85,
-        })
-      );
-      plane.position.set(0, -1, 0);
-      plane.rotation.set(Math.PI / 2.0, 0, 0);
-      plane.castShadow = false;
-      plane.receiveShadow = true;
-
-      scene.add(plane);
-
-      const gridLineColor = 0x606060;
-      scene.add(new THREE.GridHelper(1200, 60, gridLineColor, gridLineColor));
-    }
+    const gridLineColor = 0x606060;
+    scene.add(new THREE.GridHelper(1200, 60, gridLineColor, gridLineColor));
 
     return scene;
-  }
-
-  createCubes () {
-    this.cubes = createRGBCubes();
-    addHSVProps(this.cubes);
-    for (let cube of this.cubes) {
-      this.scene.add(cube);
-    }
-    this.selectedCube = this.cubes.slice(-1)[0];
-  };
-
-  highlightCubes () {
-    for (let cube of this.cubes) {
-      cube.material.opacity = 0.2;
-    }
-    this.selectedCube.material.opacity = 1.0;
-  }
-
-  unhighlightCubes () {
-    for (let cube of this.cubes) {
-      cube.material.opacity = 1.0;
-    }
   }
 
   makeOrbitControls (camera, elm) {
@@ -254,7 +173,6 @@ class ThreeColorSpace extends React.Component {
         this.currentSpin = 1.0;
         const color = this.selectedCube.material.color;
         const rgb = color.getHexString();
-        //const hsl = color.getHSL();
         this.highlightCubes();
         this.props.onSelectColor(`#${rgb}`);
       }
@@ -276,6 +194,28 @@ class ThreeColorSpace extends React.Component {
     return false;
   }
 
+  highlightCubes () {
+    for (let cube of this.cubes) {
+      cube.material.opacity = 0.2;
+    }
+    this.selectedCube.material.opacity = 1.0;
+  }
+
+  unhighlightCubes () {
+    for (let cube of this.cubes) {
+      cube.material.opacity = 1.0;
+    }
+  }
+
+  createCubes () {
+    this.cubes = createRGBCubes();
+    addHSVProps(this.cubes);
+    for (let cube of this.cubes) {
+      this.scene.add(cube);
+    }
+    this.selectedCube = this.cubes.slice(-1)[0];
+  };
+
   updateCubes(model) {
     for (let cube of this.cubes) {
       const prop = cube.userData[model];
@@ -290,5 +230,56 @@ class ThreeColorSpace extends React.Component {
     )
   }
 }
+
+
+/*
+ * event handling
+ */
+
+const _getEventCoords = (e) => {
+  /*
+   * get coordinates of touch or mouse event in the target element
+   */
+  let x, y;
+  const elm = e.currentTarget;
+  if (e.targetTouches && e.targetTouches.length) {
+    x = e.targetTouches[0].pageX;
+    y = e.targetTouches[0].pageY;
+  } else if (e.changedTouches && e.changedTouches.length){
+    x = e.changedTouches[0].pageX;
+    y = e.changedTouches[0].pageY;
+  } else {
+    /* mousedown, mouseup, mousemove or click */
+    x = e.clientX
+    y = e.clientY
+  }
+  x -= elm.offsetParent.offsetLeft;
+  y -= elm.offsetParent.offsetTop;
+  const w = elm.offsetWidth;
+  const h = elm.offsetHeight;
+  const coords = {
+    x :  (x / w) * 2 - 1,
+    y : -(y / h) * 2 + 1,
+  };
+  return coords;
+};
+
+
+const getIntersectObject = (event, scene, camera) => {
+  const raycaster = new THREE.Raycaster();
+  event.preventDefault();
+  const coords = _getEventCoords(event);
+  raycaster.setFromCamera(coords, camera);
+  const cubes = scene.children
+  const intersects = raycaster.intersectObjects(cubes);
+  if (intersects.length > 0) {
+    const mesh = intersects[0].object;
+    if (mesh.name === OBJ_NAME) {
+      return mesh;
+    }
+  }
+  return null;
+};
+
 
 export default ThreeColorSpace;
