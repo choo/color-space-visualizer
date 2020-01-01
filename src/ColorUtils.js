@@ -16,13 +16,6 @@ const rgb2hex = (r, g, b) => {
   return r * (256 ** 2) + g * (256) + b;
 };
 
-const hsl2str = (h, s, l) => {
-  return "hsl(" + 
-      Math.round(360.0 * h) + ", " + 
-      Math.round(100.0 * s) + "%, " + 
-      Math.round(100.0 * l) + "%)";
-};
-
 const selectTextColor = (rgbStr) => {
   const toRgbItem = val => {
     const x = val / 255.0;
@@ -47,7 +40,7 @@ const selectTextColor = (rgbStr) => {
  * @param {Number} h degree of Hue in HSV color model (0 - 359)
  * @param {Number} s percentage of Saturation in HSV color model (0 - 100)
  * @param {Number} v percentage of Value in HSV color model (0 - 100)
- * @return {String} RGB HEX Value
+ * @return {Number} RGB HEX integer
  */
 const hsv2rgb = (h, s, v) => {
   let r, g, b;
@@ -112,4 +105,4 @@ const _to8bitsInteger = val => {
 };
 
 
-export { rgb2str, rgb2hex, hsl2str, hsv2rgb, selectTextColor };
+export { rgb2str, rgb2hex, hsv2rgb, selectTextColor };

@@ -7,15 +7,17 @@ import useStyles from './style.js';
 import ThreeColorSpace from './components/ThreeColorSpace';
 import {selectTextColor} from './ColorUtils';
 
+const MODEL_NAMES = ['RGB', 'HSV'];
+
 
 const App = (props) => {
   const classes = useStyles();
-  const [model, setModel] = useState('RGB');
+  const [model, setModel] = useState(MODEL_NAMES[0]);
   const [selecedColor, setColor] = useState('#ffffff');
   const [previewing, setPreviewing] = useState(false);
 
   const getVariant = (modelName) => {
-    return model === modelName ? "contained" : "outlined";
+    return model === modelName ? 'contained' : 'outlined';
   }
   const togglePreview = () => {
     setPreviewing(!previewing);
@@ -23,10 +25,12 @@ const App = (props) => {
 
   return (
     <div className={classes.wrapper}>
-      <Container maxWidth="md" className={classes.container}>
+      <Container maxWidth='md' className={classes.container}>
+
         <div className={classes.header}>
           <img  className={classes.logo} src={'logo_20_02.png'} alt={'logo'} />
         </div>
+
         <ThreeColorSpace
           model={model}
           previewing={previewing}
@@ -34,15 +38,6 @@ const App = (props) => {
         />
 
         <div className={classes.controlButtons}>
-          {/*
-          {
-            previewing ? (
-              <Typography>
-                {selecedColor}
-              </Typography>
-            ) : null
-          }
-          */}
           <Button
             className={classes.colorPreview}
             style={{
@@ -59,22 +54,21 @@ const App = (props) => {
             className={classes.buttons}
             orientation="vertical"
             color="secondary"
-            aria-label="vertical outlined primary button group"
+            aria-label="color model buttons"
           >
-            <Button
-              variant={getVariant('RGB')}
-              onClick={e => {setModel('RGB')}}
-            >
-              RGB
-            </Button>
-            <Button
-              variant={getVariant('HSV')}
-              onClick={e => {setModel('HSV')}}
-            >
-              HSV
-            </Button>
+            {MODEL_NAMES.map(modelName => {
+              return (
+                <Button
+                  variant={getVariant(modelName)}
+                  onClick={e => {setModel(modelName)}}
+                >
+                  {modelName}
+                </Button>
+              )
+            })}
           </ButtonGroup>
         </div>
+
       </Container>
     </div>
   );
