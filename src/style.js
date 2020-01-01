@@ -65,9 +65,9 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('lg')]  : makeButtonsStyle(theme, SPACING.lg),
   },
   colorPreview: {
-    marginBottom: 16,
+    marginBottom: 8,
     width: 127,
-    height: 60,
+    height: 40,
   },
 }));
 
