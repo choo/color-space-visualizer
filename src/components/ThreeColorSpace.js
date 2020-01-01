@@ -4,7 +4,7 @@ import * as THREE from "three";
 import OrbitControls from "three-orbitcontrols";
 
 import { createRGBCubes } from '../RGBCubes';
-import { createHSVCubes, addHSVProps } from '../HSVCubes';
+import { addHSVProps } from '../HSVCubes';
 import { OBJ_NAME} from '../CubeUtils';
 
 
