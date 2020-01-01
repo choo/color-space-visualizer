@@ -86,7 +86,9 @@ const _toHexStr = n => {
  * @return rounded value
  */
 const _to8bitsInteger = val => {
-  return Math.floor(255 * val / 100.0);
+  const value = Math.floor(255 * val / 100.0);
+  const ret = value < 0 ? 255 - value : value;
+  return ret;
 };
 
 
