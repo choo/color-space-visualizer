@@ -5,7 +5,7 @@ import OrbitControls from "three-orbitcontrols";
 
 import { createRGBCubes } from '../RGBCubes';
 import { createHSVCubes, addHSVProps } from '../HSVCubes';
-import { OBJ_NAME} from '../CubeUtils'
+import { OBJ_NAME} from '../CubeUtils';
 
 
 const _getEventCoords = (e) => {

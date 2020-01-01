@@ -1,5 +1,5 @@
-import {hsv2rgb} from './ColorUtils'
-import {createCubeMesh} from './CubeUtils'
+import {hsv2rgb} from './ColorUtils';
+import {createCubeMesh} from './CubeUtils';
 
 const n = 6;   // number unit of point in circle
 const maxRadius = 60;

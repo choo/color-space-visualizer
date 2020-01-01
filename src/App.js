@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import {selectTextColor} from './ColorUtils';
 
-import useStyles from './style.js'
+import useStyles from './style.js';
 
 import ThreeColorSpace from './components/ThreeColorSpace';
 

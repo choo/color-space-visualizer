@@ -1,5 +1,5 @@
-import {rgb2hex} from './ColorUtils'
-import {createCubeMesh} from './CubeUtils'
+import {rgb2hex} from './ColorUtils';
+import {createCubeMesh} from './CubeUtils';
 
 const n = 8;
 const cubeSize = 3;
