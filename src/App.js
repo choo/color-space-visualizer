@@ -16,11 +16,6 @@ const App = (props) => {
   const [selecedColor, setColor] = useState('#ffffff');
   const [previewing, setPreviewing] = useState(false);
   const [showingAxes, setShowingAxes] = useState(false);
-
-  const getVariant = (modelName) => {
-    return model === modelName ? 'contained' : 'outlined';
-  }
-
   return (
     <div className={classes.wrapper}>
       <Container maxWidth='md' className={classes.container}>
@@ -66,7 +61,8 @@ const App = (props) => {
             {MODEL_NAMES.map(modelName => {
               return (
                 <Button
-                  variant={getVariant(modelName)}
+                  key={modelName}
+                  variant={model === modelName ? 'contained' : 'outlined'}
                   onClick={e => {setModel(modelName)}}
                 >
                   {modelName}
