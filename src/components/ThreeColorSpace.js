@@ -64,6 +64,7 @@ class ThreeColorSpace extends React.Component {
 
     this.createCubes();
     this.divRef.current.appendChild(renderer.domElement);
+    this.addAxes();
 
     const tick = () => {
       controls.update();
@@ -112,6 +113,44 @@ class ThreeColorSpace extends React.Component {
     scene.add(new THREE.GridHelper(1200, 60, gridLineColor, gridLineColor));
 
     return scene;
+  }
+
+  addAxes_ () {
+    //const axesHelper = new THREE.AxesHelper(2000);
+    //scene.add(axesHelper);
+    const pos = this.cubes[0].position;
+    console.log(pos);
+
+    const material = new THREE.LineBasicMaterial({
+      linewidth: 3,
+      color: 0x00ff00
+    });
+
+    const geometry = new THREE.Geometry();
+    geometry.vertices.push(
+      pos,
+      new THREE.Vector3( 0, 1000, 0 ),
+    );
+
+    const line = new THREE.Line( geometry, material );
+    this.scene.add( line );
+  }
+
+  addAxes () {
+    const origin = this.cubes[0].position;
+    const len = 120;
+    const vecs = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
+    const colors = [0xff0000, 0x00ff00, 0x0000ff];
+    this.axes = [];
+
+    for (let i of [0, 1, 2]) {
+      const vec = new THREE.Vector3( ...vecs[i] );
+      const axis = new THREE.ArrowHelper( vec, origin, len, colors[i], 6, 4 );
+      axis.line.material.linewidth = 2;
+      axis.visible = false;
+      this.scene.add(axis);
+      this.axes.push(axis);
+    }
   }
 
   makePlane () {
@@ -192,6 +231,11 @@ class ThreeColorSpace extends React.Component {
         this.highlightCubes();
       } else {
         this.unhighlightCubes();
+      }
+    }
+    if (this.props.showingAxes !== nextProps.showingAxes) {
+      for (const axis of this.axes) {
+        axis.visible = nextProps.showingAxes;
       }
     }
     return false;
