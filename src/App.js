@@ -20,9 +20,6 @@ const App = (props) => {
   const getVariant = (modelName) => {
     return model === modelName ? 'contained' : 'outlined';
   }
-  const togglePreview = () => {
-    setPreviewing(!previewing);
-  };
 
   return (
     <div className={classes.wrapper}>
@@ -46,7 +43,7 @@ const App = (props) => {
               backgroundColor: selecedColor,
               color: selectTextColor(selecedColor),
             }}
-            onClick={togglePreview}
+            onClick={() => setPreviewing(!previewing)}
             aria-label="color preview"
           >
             {selecedColor}
