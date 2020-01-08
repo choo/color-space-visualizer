@@ -15,6 +15,7 @@ const App = (props) => {
   const [model, setModel] = useState(MODEL_NAMES[0]);
   const [selecedColor, setColor] = useState('#ffffff');
   const [previewing, setPreviewing] = useState(false);
+  const [showingAxes, setShowingAxes] = useState(false);
 
   const getVariant = (modelName) => {
     return model === modelName ? 'contained' : 'outlined';
@@ -34,6 +35,7 @@ const App = (props) => {
         <ThreeColorSpace
           model={model}
           previewing={previewing}
+          showingAxes={showingAxes}
           onSelectColor={rgb => {setColor(rgb)}}
         />
 
@@ -48,6 +50,14 @@ const App = (props) => {
             aria-label="color preview"
           >
             {selecedColor}
+          </Button>
+
+          <Button
+            className={classes.showingAxes}
+            onClick={() => setShowingAxes(!showingAxes)}
+            aria-label="show axes"
+          >
+            {showingAxes ? 'show' : 'hide'} axes
           </Button>
 
           <ButtonGroup
