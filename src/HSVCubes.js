@@ -5,7 +5,7 @@ const maxRadius = 60;
 
 const steps = 7;
 const height = 140;
-const offset = -10;
+const offset = 10;
 
 
 const addHSVProps = (cubes) => {
@@ -50,7 +50,7 @@ const getCubePosition = (degree, saturation, value) =>{
   const radius = maxRadius * saturation / 100.0;
   return [
     Math.cos(radian) * radius,
-    height * (value / 100.0) - offset,
+    height * (value / 100.0) + offset,
     Math.sin(radian) * radius
   ];
 };
