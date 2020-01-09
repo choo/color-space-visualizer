@@ -143,7 +143,7 @@ class ThreeColorSpace extends React.Component {
     const colors = [0xff0000, 0x00ff00, 0x0000ff];
     this.axes = [];
 
-    for (let i of [0, 1, 2]) {
+    for (let i = 0; i < 3; i++) {
       const vec = new THREE.Vector3( ...vecs[i] );
       const axis = new THREE.ArrowHelper( vec, origin, len, colors[i], 6, 4 );
       axis.line.material.linewidth = 2;
