@@ -4,7 +4,7 @@ import * as THREE from "three";
 import OrbitControls from "three-orbitcontrols";
 
 import { createRGBCubes } from '../RGBCubes';
-import { addHSVProps } from '../HSVCubes';
+import { addHSVProps, createAxes } from '../HSVCubes';
 import { OBJ_NAME} from '../CubeUtils';
 
 
@@ -148,6 +148,12 @@ class ThreeColorSpace extends React.Component {
       const axis = new THREE.ArrowHelper( vec, origin, len, colors[i], 6, 4 );
       axis.line.material.linewidth = 2;
       axis.visible = false;
+      axis.userData.model = 'RGB';
+      this.scene.add(axis);
+      this.axes.push(axis);
+    }
+    const HSVAxes = createAxes();
+    for (const axis of HSVAxes) {
       this.scene.add(axis);
       this.axes.push(axis);
     }
@@ -223,19 +229,20 @@ class ThreeColorSpace extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (this.props.model !== nextProps.model) {
-      this.updateCubes(nextProps.model);
+    const model = nextProps.model
+    this.updateCubes(model);
+    if (nextProps.previewing) {
+      this.highlightCubes();
+    } else {
+      this.unhighlightCubes();
     }
-    if (this.props.previewing !== nextProps.previewing) {
-      if (nextProps.previewing) {
-        this.highlightCubes();
-      } else {
-        this.unhighlightCubes();
-      }
-    }
-    if (this.props.showingAxes !== nextProps.showingAxes) {
-      for (const axis of this.axes) {
+    for (const axis of this.axes) {
+      if (!nextProps.showingAxes) {
+        axis.visible = false;
+      } else if (axis.userData.model === nextProps.model) {
         axis.visible = nextProps.showingAxes;
+      } else {
+        axis.visible = !nextProps.showingAxes;
       }
     }
     return false;

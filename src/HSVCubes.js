@@ -1,3 +1,4 @@
+import * as THREE from "three";
 import {hsv2rgb} from './ColorUtils';
 
 const n = 6;   // number of cubes in circle
@@ -34,6 +35,25 @@ const addHSVProps = (cubes) => {
   return;
 };
 
+const createAxes = () => {
+  const ret = [];
+  const conf = [
+    {
+      dir: new THREE.Vector3(...[0, 1, 0]),
+      origin: new THREE.Vector3(...[0, offset, 0]),
+      len: 180,
+      color: 0xffffff,
+    },
+  ];
+  for (const c of conf) {
+    const axis = new THREE.ArrowHelper(c.dir, c.origin, c.len, c.color, 6, 4 );
+    axis.userData.model = 'HSV';
+    axis.visible = false;
+    ret.push(axis);
+  }
+  return ret;
+};
+
 const _sortByColor = (a, b) => {
   if (a.color > b.color) {
       return 1;
@@ -55,4 +75,4 @@ const getCubePosition = (degree, saturation, value) =>{
   ];
 };
 
-export {addHSVProps};
+export {addHSVProps, createAxes};
