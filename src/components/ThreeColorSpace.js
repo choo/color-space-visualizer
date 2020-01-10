@@ -185,10 +185,11 @@ class ThreeColorSpace extends React.Component {
   }
 
   spinSelectedCube () {
+    const SPIN_DAMPING_FACTOR = 0.93;
     this.selectedCube.rotation.x += this.currentSpin;
     this.selectedCube.rotation.y += this.currentSpin;
     if (this.currentSpin > 0.1) {
-      this.currentSpin *= 0.93;
+      this.currentSpin *= SPIN_DAMPING_FACTOR;
     } else if (Math.abs(
           this.selectedCube.rotation.y % (Math.PI / 2.0)) < 0.09) {
       /* spinning stop */
@@ -215,7 +216,7 @@ class ThreeColorSpace extends React.Component {
       }
       const selected = this.getIntersectCubes(e, camera);
       if (selected) {
-        /* reset rotation of previously selected */
+        /* reset rotation of cube previously selected */
         this.selectedCube.rotation.set(0, 0, 0);
         this.selectedCube = selected;
         this.currentSpin = 1.0;
