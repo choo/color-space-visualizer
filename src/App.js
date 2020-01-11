@@ -49,7 +49,7 @@ const App = (props) => {
             onClick={() => setShowingAxes(!showingAxes)}
             aria-label="show axes"
           >
-            {showingAxes ? 'show' : 'hide'} axes
+            {showingAxes ? 'hide' : 'show'} axes
           </Button>
 
           <ButtonGroup
