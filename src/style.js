@@ -70,11 +70,10 @@ const useStyles = makeStyles(theme => ({
     height: 40,
   },
   showAxes: {
-    // TODO: merge settings
-    marginBottom: 8,
-    width: 127,
-    height: 40,
-    backgroundColor: '#ffff00',
+    backgroundColor: '#dddddd',
+    "&:hover, &:focus": {
+      backgroundColor: '#dddddd',
+    },
   },
 }));
 

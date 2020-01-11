@@ -45,7 +45,7 @@ const App = (props) => {
           </Button>
 
           <Button
-            className={classes.showingAxes}
+            className={`${classes.colorPreview} ${classes.showAxes}`}
             onClick={() => setShowingAxes(!showingAxes)}
             aria-label="show axes"
           >
