@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import {rgb2hex} from './ColorUtils';
-import {createCubeMesh} from './CubeUtils';
+import {createCubeMesh, createTickPlane, PLANE_SIZE, PLANE_THICKNESS} from './CubeUtils';
 
 const n = 8;
 const cubeSize = 3;
@@ -23,6 +23,11 @@ const createRGBCubes = () => {
         cube.userData.RGB = {
           color: color,
           position: [x, y, z],
+        };
+        cube.userData.axes = {
+          x: i,
+          y: j,
+          z: k,
         };
         ret.push(cube);
       }
@@ -70,31 +75,15 @@ const createRGBAxes = () => {
 
 const makeAxisTick = (i, color) => {
   const ret = []
-  const THICKNESS = 1;
-  const SIZE = 5
   for (let j = 0; j < n; j++) {
-
-    const sizes = [0, 0, 0];
-    sizes[(0 + i) % 3] = THICKNESS;
-    sizes[(1 + i) % 3] = SIZE;
-    sizes[(2 + i) % 3] = SIZE;
-
     const idx = [0, 0, 0];
     idx[i] = j;
     const pos = getCubePosition(...idx);
-    pos[(0 + i) % 3] += THICKNESS / 2;
-    pos[(1 + i) % 3] -= SIZE / 2; // + 1.5;
-    pos[(2 + i) % 3] -= SIZE / 2; // + 1.5;
+    pos[(0 + i) % 3] += PLANE_THICKNESS / 2;
+    pos[(1 + i) % 3] -= PLANE_SIZE / 2; // + 1.5;
+    pos[(2 + i) % 3] -= PLANE_SIZE / 2; // + 1.5;
 
-    const geometry = new THREE.BoxGeometry( ...sizes );
-    const material = new THREE.MeshPhongMaterial(
-        {color: color, side: THREE.DoubleSide});
-    const plane = new THREE.Mesh(geometry, material);
-    plane.position.set(...pos);
-    plane.userData.model = 'RGB';
-    plane.visible = false;
-    plane.castShadow = true;
-    plane.receiveShadow = true;
+    const plane = createTickPlane(i, color, pos, 'RGB');
     ret.push(plane);
   }
   return ret;
