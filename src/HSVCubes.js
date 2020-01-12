@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import {hsv2rgb} from './ColorUtils';
+import {createTickPlane, PLANE_SIZE, PLANE_THICKNESS} from './CubeUtils';
 
 const n = 6;   // number of cubes in circle
 const maxRadius = 60;
@@ -60,7 +61,41 @@ const createAxes = () => {
     axis.visible = false;
     ret.push(axis);
   }
+
+  // tick for saturation axis
+  for (let i = 0; i <= steps; i++) {
+    const saturation = i / steps * 100.0;
+    const pos = getCubePosition(0, saturation, 100.0);
+    pos[0] += PLANE_THICKNESS / 2;
+    pos[1] -= PLANE_SIZE / 2;
+    const plane = createTickPlane(0, 0x00ff00, pos, 'HSV');
+    ret.push(plane);
+  }
+
+  // tick for value axis
+  for (let i = 0; i <= steps; i++) {
+    const value = i / steps * 100.0;
+    const pos = getCubePosition(180, 0, value);
+    pos[0] -= PLANE_SIZE / 2;
+    const plane = createTickPlane(1, 0x0000ff, pos, 'HSV');
+    ret.push(plane);
+  }
+
+  // hue
   ret.push(createHueRing());
+  for (let i = 0; i < n; i++) {
+    const degree = 360.0 / n * i;
+    const rad = (Math.PI / 180) * degree;
+    const color = hsv2rgb(degree, 100.0, 100.0);
+    const pos = getCubePosition(degree, 100.0, 100.0);
+    pos[1] += PLANE_SIZE / 2;
+    pos[0] += PLANE_SIZE / 2 * Math.cos(rad);
+    pos[2] += PLANE_SIZE / 2 * Math.sin(rad);
+    const plane = createTickPlane(2, 0xff0000, pos, 'HSV');
+    plane.rotation.y = -rad;
+    ret.push(plane);
+  }
+
   return ret;
 };
 
