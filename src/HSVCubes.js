@@ -51,7 +51,50 @@ const createAxes = () => {
     axis.visible = false;
     ret.push(axis);
   }
+  ret.push(createHueRing());
   return ret;
+};
+
+const createColorHueRing = () => {
+  const N = steps * n;
+  const geometry = new THREE.BufferGeometry();
+  const vertices = [];
+  const color = new THREE.Color();
+  const colors = [];
+  for (let i = 0; i <= N; i++) {
+    const degree = 360.0 / N * i;
+    const [x, y, z] = getCubePosition(degree, 100.0, 100.0);
+    vertices.push(x, y, z);
+    color.setHSL(i / N, 1.0, 0.5);
+    colors.push( color.r, color.g, color.b );
+  }
+  geometry.setAttribute( 'position',
+      new THREE.Float32BufferAttribute( vertices, 3 ) );
+  geometry.setAttribute( 'color',
+      new THREE.Float32BufferAttribute( colors, 3 ) );
+  const material = new THREE.LineBasicMaterial(
+      { color: 0xffffff, vertexColors: THREE.VertexColors } );
+  const line = new THREE.Line(geometry, material);
+  line.material.linewidth = 2;
+  line.userData.model = 'HSV';
+  line.visible = false;
+  return line;
+};
+
+const createHueRing = () => {
+  const N = steps * n;
+  const geometry = new THREE.Geometry();
+  for (let i = 0; i <= N; i++) {
+    const degree = 360.0 / N * i;
+    const [x, y, z] = getCubePosition(degree, 100.0, 100.0);
+    geometry.vertices.push(new THREE.Vector3(x, y, z));
+  }
+  const material = new THREE.LineBasicMaterial({ color: 0xff0000 } );
+  const line = new THREE.Line(geometry, material);
+  line.material.linewidth = 2;
+  line.userData.model = 'HSV';
+  line.visible = false;
+  return line;
 };
 
 const _sortByColor = (a, b) => {
