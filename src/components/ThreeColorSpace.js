@@ -3,7 +3,7 @@ import React from "react";
 import * as THREE from "three";
 import OrbitControls from "three-orbitcontrols";
 
-import { createRGBCubes } from '../RGBCubes';
+import { createRGBCubes, createRGBAxes } from '../RGBCubes';
 import { addHSVProps, createAxes } from '../HSVCubes';
 import { OBJ_NAME} from '../CubeUtils';
 
@@ -137,23 +137,10 @@ class ThreeColorSpace extends React.Component {
   }
 
   addAxes () {
-    const origin = this.cubes[0].position;
-    const len = 120;
-    const vecs = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
-    const colors = [0xff0000, 0x00ff00, 0x0000ff];
     this.axes = [];
-
-    for (let i = 0; i < 3; i++) {
-      const vec = new THREE.Vector3( ...vecs[i] );
-      const axis = new THREE.ArrowHelper( vec, origin, len, colors[i], 6, 4 );
-      axis.line.material.linewidth = 2;
-      axis.visible = false;
-      axis.userData.model = 'RGB';
-      this.scene.add(axis);
-      this.axes.push(axis);
-    }
+    const RGBAxes = createRGBAxes();
     const HSVAxes = createAxes();
-    for (const axis of HSVAxes) {
+    for (const axis of RGBAxes.concat(HSVAxes)) {
       this.scene.add(axis);
       this.axes.push(axis);
     }
