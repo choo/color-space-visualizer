@@ -38,15 +38,24 @@ const addHSVProps = (cubes) => {
 const createAxes = () => {
   const ret = [];
   const conf = [
+    // saturation
     {
-      dir: new THREE.Vector3(...[0, 1, 0]),
-      origin: new THREE.Vector3(...[0, offset, 0]),
-      len: 180,
-      color: 0xffffff,
+      dir: new THREE.Vector3(1, 0, 0),
+      origin: new THREE.Vector3(0, offset + height, 0),
+      len: maxRadius + 30,
+      color: 0x00ff00,
+    },
+    // value
+    {
+      dir: new THREE.Vector3(0, 1, 0),
+      origin: new THREE.Vector3(0, offset, 0),
+      len: height + 40,
+      color: 0x0000ff,
     },
   ];
   for (const c of conf) {
     const axis = new THREE.ArrowHelper(c.dir, c.origin, c.len, c.color, 6, 4 );
+    axis.line.material.linewidth = 2;
     axis.userData.model = 'HSV';
     axis.visible = false;
     ret.push(axis);
