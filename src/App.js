@@ -5,6 +5,7 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 import useStyles from './style.js';
 import ThreeColorSpace from './components/ThreeColorSpace';
+import InfoPopover from './components/InfoPopover';
 import {selectTextColor} from './ColorUtils';
 
 const MODEL_NAMES = ['RGB', 'HSV'];
@@ -22,6 +23,10 @@ const App = (props) => {
 
         <div className={classes.header}>
           <img  className={classes.logo} src={'logo_20_02.png'} alt={'logo'} />
+        </div>
+
+        <div className={classes.infoButton}>
+          <InfoPopover />
         </div>
 
         <ThreeColorSpace
