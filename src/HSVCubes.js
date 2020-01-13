@@ -41,7 +41,7 @@ const addHSVProps = (cubes) => {
   return;
 };
 
-const createAxes = () => {
+const createHSVAxes = () => {
   const axes = [];
   const ticks = [];
   const conf = [
@@ -165,4 +165,4 @@ const getCubePosition = (degree, saturation, value) =>{
   ];
 };
 
-export {addHSVProps, createAxes};
+export {addHSVProps, createHSVAxes};

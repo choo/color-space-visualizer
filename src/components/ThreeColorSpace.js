@@ -4,7 +4,7 @@ import * as THREE from "three";
 import OrbitControls from "three-orbitcontrols";
 
 import { createRGBCubes, createRGBAxes } from '../RGBCubes';
-import { addHSVProps, createAxes } from '../HSVCubes';
+import { addHSVProps, createHSVAxes } from '../HSVCubes';
 import { OBJ_NAME} from '../CubeUtils';
 
 const OPACITY_TRANSPARENT = 0.15;
@@ -144,7 +144,7 @@ class ThreeColorSpace extends React.Component {
     this.axes = [];
     this.ticks = [];
     const [RGBAxes, RGBTicks] = createRGBAxes();
-    const [HSVAxes, HSVTicks] = createAxes();
+    const [HSVAxes, HSVTicks] = createHSVAxes();
     for (const axis of RGBAxes.concat(HSVAxes)) {
       this.scene.add(axis);
       this.axes.push(axis);
