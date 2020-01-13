@@ -1,24 +1,21 @@
 import {rgb2hex} from './ColorUtils';
 import {createCubeMesh, createTickPlane, createAxisArrow, PLANE_SIZE, PLANE_THICKNESS} from './CubeUtils';
 
-const n = 8;
-const cubeSize = 3;
+const NUM = 8;
+const CUBE_SIZE = 3;
 
-const spacing = 8;
-const offset = [0, 80, 0];
-
-const totalSize = cubeSize * n + spacing * (n - 1);
-const colorSpacing = 255.0 / (n - 1);
+const SPACING = 8;
+const OFFSET = [0, 80, 0];
 
 
 const createRGBCubes = () => {
   const ret = []
-  for (let i = 0; i < n; i++) {
-    for (let j = 0; j < n; j++) {
-      for (let k = 0; k < n; k++) {
+  for (let i = 0; i < NUM; i++) {
+    for (let j = 0; j < NUM; j++) {
+      for (let k = 0; k < NUM; k++) {
         const color = getCubeColor(i, j, k);
         const [x, y, z] = getCubePosition(i, j, k);
-        const cube = createCubeMesh(cubeSize, color, x, y, z);
+        const cube = createCubeMesh(CUBE_SIZE, color, x, y, z);
         cube.userData.RGB = {
           color: color,
           position: [x, y, z],
@@ -69,7 +66,7 @@ const createRGBAxes = () => {
 
 const makeAxisTick = (i, color) => {
   const ret = []
-  for (let j = 0; j < n; j++) {
+  for (let j = 0; j < NUM; j++) {
     const idx = [0, 0, 0];
     idx[i] = j;
     const pos = getCubePosition(...idx);
@@ -85,6 +82,7 @@ const makeAxisTick = (i, color) => {
 
 
 const getCubeColor = (i, j, k) => {
+  const colorSpacing = 255.0 / (NUM - 1);
   return rgb2hex(
     Math.round(i * colorSpacing),
     Math.round(j * colorSpacing),
@@ -93,10 +91,11 @@ const getCubeColor = (i, j, k) => {
 };
 
 const getCubePosition = (i, j, k) => {
+  const totalSize = CUBE_SIZE * NUM + SPACING * (NUM - 1);
   return [
-    cubeSize * (i + 1) + spacing * i - (totalSize / 2) + offset[0],
-    cubeSize * (j + 1) + spacing * j - (totalSize / 2) + offset[1],
-    cubeSize * (k + 1) + spacing * k - (totalSize / 2) + offset[2]
+    CUBE_SIZE * (i + 1) + SPACING * i - (totalSize / 2) + OFFSET[0],
+    CUBE_SIZE * (j + 1) + SPACING * j - (totalSize / 2) + OFFSET[1],
+    CUBE_SIZE * (k + 1) + SPACING * k - (totalSize / 2) + OFFSET[2]
   ];
 };
 
