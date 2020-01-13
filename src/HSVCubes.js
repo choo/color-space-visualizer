@@ -49,14 +49,14 @@ const createAxes = () => {
       dir: [1, 0, 0],
       origin: [0, OFFSET_Y + HEIGHT, 0],
       len: MAX_RADIUS + 30,
-      color: 0x00ff00,
+      color: 0xbbbbbb,
     },
     // value
     {
       dir: [0, 1, 0],
       origin: [0, OFFSET_Y, 0],
       len: HEIGHT + 40,
-      color: 0x0000ff,
+      color: 0xeeeeee,
     },
   ];
   for (const c of conf) {
@@ -69,8 +69,8 @@ const createAxes = () => {
     const saturation = i / STEPS * 100.0;
     const pos = getCubePosition(0, saturation, 100.0);
     pos[0] += PLANE_THICKNESS / 2;
-    pos[1] -= PLANE_SIZE / 2;
-    const plane = createTickPlane(0, 0x00ff00, pos, 'HSV', 'S', saturation);
+    pos[1] += PLANE_SIZE / 2;
+    const plane = createTickPlane(0, 0xdddddd, pos, 'HSV', 'S', saturation);
     ret.push(plane);
   }
 
@@ -79,12 +79,12 @@ const createAxes = () => {
     const value = i / STEPS * 100.0;
     const pos = getCubePosition(180, 0, value);
     pos[0] -= PLANE_SIZE / 2;
-    const plane = createTickPlane(1, 0x0000ff, pos, 'HSV', 'V', value);
+    const plane = createTickPlane(1, 0xdddddd, pos, 'HSV', 'V', value);
     ret.push(plane);
   }
 
   // hue
-  ret.push(createHueRing());
+  ret.push(createColorHueRing());
   for (let i = 0; i < NUM; i++) {
     const degree = 360.0 / NUM * i;
     const rad = (Math.PI / 180) * degree;
