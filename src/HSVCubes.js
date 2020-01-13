@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import {hsv2rgb} from './ColorUtils';
-import {createTickPlane, PLANE_SIZE, PLANE_THICKNESS} from './CubeUtils';
+import {createTickPlane, createAxisArrow, PLANE_SIZE, PLANE_THICKNESS} from './CubeUtils';
 
 const n = 6;   // number of cubes in circle
 const maxRadius = 60;
@@ -41,24 +41,21 @@ const createAxes = () => {
   const conf = [
     // saturation
     {
-      dir: new THREE.Vector3(1, 0, 0),
-      origin: new THREE.Vector3(0, offset + height, 0),
+      dir: [1, 0, 0],
+      origin: [0, offset + height, 0],
       len: maxRadius + 30,
       color: 0x00ff00,
     },
     // value
     {
-      dir: new THREE.Vector3(0, 1, 0),
-      origin: new THREE.Vector3(0, offset, 0),
+      dir: [0, 1, 0],
+      origin: [0, offset, 0],
       len: height + 40,
       color: 0x0000ff,
     },
   ];
   for (const c of conf) {
-    const axis = new THREE.ArrowHelper(c.dir, c.origin, c.len, c.color, 6, 4 );
-    axis.line.material.linewidth = 2;
-    axis.userData.model = 'HSV';
-    axis.visible = false;
+    const axis = createAxisArrow(c.origin, c.dir, c.color, c.len, 'HSV');
     ret.push(axis);
   }
 

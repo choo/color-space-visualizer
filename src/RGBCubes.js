@@ -1,6 +1,5 @@
-import * as THREE from "three";
 import {rgb2hex} from './ColorUtils';
-import {createCubeMesh, createTickPlane, PLANE_SIZE, PLANE_THICKNESS} from './CubeUtils';
+import {createCubeMesh, createTickPlane, createAxisArrow, PLANE_SIZE, PLANE_THICKNESS} from './CubeUtils';
 
 const n = 8;
 const cubeSize = 3;
@@ -50,20 +49,15 @@ const _sortByColor = (a, b) => {
 
 const createRGBAxes = () => {
   const ret = [];
-  const origin = new THREE.Vector3(...getCubePosition(0, 0, 0));
+  const origin = getCubePosition(0, 0, 0);
   const len = 120;
   const colors = [0xff0000, 0x00ff00, 0x0000ff];
   for (let i = 0; i < 3; i++) {
-    const vec = [0, 0, 0];
-    vec[i] = 1;
-    const dirVec = new THREE.Vector3(...vec);
-    const axis = new THREE.ArrowHelper( dirVec, origin, len, colors[i], 6, 4 );
-    axis.line.material.linewidth = 2;
-    axis.userData.model = 'RGB';
-    axis.visible = false;
+    const direction = [0, 0, 0];
+    direction[i] = 1;
+    const axis = createAxisArrow(origin, direction, colors[i], len, 'RGB');
     ret.push(axis);
 
-    // Add axis ticks
     const ticks = makeAxisTick(i, colors[i]);
     for (const tick of ticks) {
       ret.push(tick);

@@ -16,6 +16,16 @@ export const createCubeMesh = (size, color, x, y, z) => {
   return mesh;
 };
 
+export const createAxisArrow = (origin, direction, color, len, modelName) => {
+  const originVec = new THREE.Vector3(...origin);
+  const dirVec = new THREE.Vector3(...direction);
+  const arrow = new THREE.ArrowHelper(dirVec, originVec, len, color, 6, 4 );
+  arrow.line.material.linewidth = 2;
+  arrow.userData.model = modelName;
+  arrow.visible = false;
+  return arrow;
+};
+
 export const createTickPlane = (dirIdx, color, position, modelName) => {
   const size = [PLANE_SIZE, PLANE_SIZE, PLANE_SIZE];
   size[dirIdx] = PLANE_THICKNESS;
@@ -30,4 +40,3 @@ export const createTickPlane = (dirIdx, color, position, modelName) => {
   plane.receiveShadow = true;
   return plane;
 };
-
