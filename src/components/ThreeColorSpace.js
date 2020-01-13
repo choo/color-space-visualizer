@@ -265,7 +265,7 @@ class ThreeColorSpace extends React.Component {
 
   highlightCubes () {
     this.clearAllCubes();
-    showCube(this.selectedCube);
+    showObj(this.selectedCube);
   }
 
   highlightAxisCubes () {
@@ -274,7 +274,7 @@ class ThreeColorSpace extends React.Component {
     const value = this.selectedAxis.value;
     for (let cube of this.cubes) {
       if (cube.userData[model].vals[axis] === value) {
-        showCube(cube);
+        showObj(cube);
       } else {
         toTransparent(cube, 0.1);
       }
@@ -283,7 +283,7 @@ class ThreeColorSpace extends React.Component {
 
   displayAllCubes () {
     for (let cube of this.cubes) {
-      showCube(cube);
+      showObj(cube);
     }
   }
 
@@ -322,7 +322,7 @@ class ThreeColorSpace extends React.Component {
 
       } else if (tick.userData.model !== model) {
         /* tick of currently invisible model */
-        clearCube(tick);
+        clearObject(tick);
 
       } else {
         /* showingAxes && showing model */
@@ -331,7 +331,7 @@ class ThreeColorSpace extends React.Component {
           const value = this.selectedAxis.value;
           if (axis === tick.userData.axis && value === tick.userData.value) {
             /* tick of selected axis */
-            showCube(tick);
+            showObj(tick);
           } else {
             /* not selected */
             toTransparent(tick, OPACITY_NOT_SELECTED);
@@ -408,26 +408,26 @@ const _getIntersectObjects = (event, scene, camera) => {
 };
 
 
-const toTransparent = (cube, opacity) => {
+const toTransparent = (obj, opacity) => {
   opacity = opacity || OPACITY_TRANSPARENT;
-  cube.visible = true;
-  cube.castShadow = false;
-  cube.receiveShadow = false;
-  cube.material.visible = true;
-  cube.material.opacity = opacity;
+  obj.visible = true;
+  obj.castShadow = false;
+  obj.receiveShadow = false;
+  obj.material.visible = true;
+  obj.material.opacity = opacity;
 }
 
-const showCube = cube => {
-  cube.visible = true;
-  cube.castShadow = true;
-  cube.receiveShadow = true;
-  cube.material.visible = true;
-  cube.material.opacity = 1.0;
+const showObj = obj => {
+  obj.visible = true;
+  obj.castShadow = true;
+  obj.receiveShadow = true;
+  obj.material.visible = true;
+  obj.material.opacity = 1.0;
 }
 
-const clearCube = cube => {
-  cube.visible = false;
-  cube.material.visible = false;
+const clearObject = obj => {
+  obj.visible = false;
+  obj.material.visible = false;
 }
 
 export default ThreeColorSpace;
