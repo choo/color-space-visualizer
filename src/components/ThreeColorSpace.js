@@ -7,6 +7,8 @@ import { createRGBCubes, createRGBAxes } from '../RGBCubes';
 import { addHSVProps, createAxes } from '../HSVCubes';
 import { OBJ_NAME} from '../CubeUtils';
 
+const OPACITY_TRANSPARENT = 0.15;
+
 
 class ThreeColorSpace extends React.Component {
 
@@ -68,7 +70,9 @@ class ThreeColorSpace extends React.Component {
 
     const tick = () => {
       controls.update();
-      this.spinSelectedCube();
+      if (this.currentSpin) {
+        this.spinSelectedCube();
+      }
       this.rendererRender();
       requestAnimationFrame(tick);
     };
@@ -182,9 +186,7 @@ class ThreeColorSpace extends React.Component {
       /* spinning stop */
       this.currentSpin = 0.0;
       this.selectedCube.rotation.set(0, 0, 0);
-      if (!this.props.previewing) {
-        this.unhighlightCubes();
-      }
+      this.updateCubes(this.props.previewing, this.props.showingAxes);
     }
   }
 
@@ -209,8 +211,8 @@ class ThreeColorSpace extends React.Component {
         this.currentSpin = 1.0;
         const color = this.selectedCube.material.color;
         const rgb = color.getHexString();
-        this.highlightCubes();
         this.props.onSelectColor(`#${rgb}`);
+        this.updateCubes(this.props.previewing, this.props.showingAxes);
       }
     };
     return onClicked;
@@ -218,34 +220,52 @@ class ThreeColorSpace extends React.Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     const model = nextProps.model
-    this.updateCubes(model);
-    if (nextProps.previewing) {
-      this.highlightCubes();
-    } else {
-      this.unhighlightCubes();
-    }
-    for (const axis of this.axes) {
-      if (!nextProps.showingAxes) {
-        axis.visible = false;
-      } else if (axis.userData.model === nextProps.model) {
-        axis.visible = nextProps.showingAxes;
-      } else {
-        axis.visible = !nextProps.showingAxes;
-      }
-    }
+    this.moveCubes(model);
+    this.updateCubes(nextProps.previewing, nextProps.showingAxes);
+    this.updateAxes(nextProps.previewing, nextProps.showingAxes, model);
     return false;
   }
 
-  highlightCubes () {
+  clearAllCubes () {
     for (let cube of this.cubes) {
-      cube.material.opacity = 0.2;
+      cube.material.opacity = OPACITY_TRANSPARENT;
     }
+  }
+
+  highlightCubes () {
+    this.clearAllCubes();
     this.selectedCube.material.opacity = 1.0;
   }
 
-  unhighlightCubes () {
+  displayAllCubes () {
     for (let cube of this.cubes) {
       cube.material.opacity = 1.0;
+    }
+  }
+
+  updateCubes (previewing, showingAxes) {
+    if (previewing || this.currentSpin > 0.0) {
+      this.highlightCubes();
+    } else if (showingAxes) {
+      if (this.selectedAxis) {
+        // display cubes on selected axis
+      } else {
+        this.clearAllCubes();
+      }
+    } else if (!this.currentSpin) {
+      this.displayAllCubes();
+    }
+  }
+
+  updateAxes (previewing, showingAxes, model) {
+    for (const axis of this.axes) {
+      if (!showingAxes) {
+        axis.visible = false;
+      } else if (axis.userData.model === model) {
+        axis.visible = showingAxes;
+      } else {
+        axis.visible = !showingAxes;
+      }
     }
   }
 
@@ -258,7 +278,7 @@ class ThreeColorSpace extends React.Component {
     this.selectedCube = this.cubes.slice(-1)[0];
   };
 
-  updateCubes(model) {
+  moveCubes(model) {
     for (let cube of this.cubes) {
       const prop = cube.userData[model];
       cube.position.set(...prop.position);
