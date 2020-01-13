@@ -19,12 +19,13 @@ const createRGBCubes = () => {
         cube.userData.RGB = {
           color: color,
           position: [x, y, z],
+          vals: {
+            R: i,
+            G: j,
+            B: k,
+          },
         };
-        cube.userData.axes = {
-          x: i,
-          y: j,
-          z: k,
-        };
+        cube.userData.isCube = true;
         ret.push(cube);
       }
     }
@@ -67,6 +68,7 @@ const createRGBAxes = () => {
 const makeAxisTick = (i, color) => {
   const ret = []
   for (let j = 0; j < NUM; j++) {
+    const axis = 'RGB'.charAt(i);
     const idx = [0, 0, 0];
     idx[i] = j;
     const pos = getCubePosition(...idx);
@@ -74,7 +76,7 @@ const makeAxisTick = (i, color) => {
     pos[(1 + i) % 3] -= PLANE_SIZE / 2;
     pos[(2 + i) % 3] -= PLANE_SIZE / 2;
 
-    const plane = createTickPlane(i, color, pos, 'RGB');
+    const plane = createTickPlane(i, color, pos, 'RGB', axis, j);
     ret.push(plane);
   }
   return ret;

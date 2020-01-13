@@ -24,6 +24,11 @@ const addHSVProps = (cubes) => {
         hsvProps.push({
           color: color,
           position: [x, y, z],
+          vals: {
+            H: degree,
+            S: saturation,
+            V: value,
+          },
         });
       }
     }
@@ -65,7 +70,7 @@ const createAxes = () => {
     const pos = getCubePosition(0, saturation, 100.0);
     pos[0] += PLANE_THICKNESS / 2;
     pos[1] -= PLANE_SIZE / 2;
-    const plane = createTickPlane(0, 0x00ff00, pos, 'HSV');
+    const plane = createTickPlane(0, 0x00ff00, pos, 'HSV', 'S', saturation);
     ret.push(plane);
   }
 
@@ -74,7 +79,7 @@ const createAxes = () => {
     const value = i / STEPS * 100.0;
     const pos = getCubePosition(180, 0, value);
     pos[0] -= PLANE_SIZE / 2;
-    const plane = createTickPlane(1, 0x0000ff, pos, 'HSV');
+    const plane = createTickPlane(1, 0x0000ff, pos, 'HSV', 'V', value);
     ret.push(plane);
   }
 
@@ -87,7 +92,8 @@ const createAxes = () => {
     pos[0] += PLANE_SIZE / 2 * Math.cos(rad);
     pos[2] += PLANE_SIZE / 2 * Math.sin(rad);
     pos[1] += PLANE_SIZE / 2;
-    const plane = createTickPlane(2, 0xff0000, pos, 'HSV');
+    const color = hsv2rgb(degree, 100.0, 100.0);
+    const plane = createTickPlane(2, color, pos, 'HSV', 'H', degree);
     plane.rotation.y = -rad;
     ret.push(plane);
   }

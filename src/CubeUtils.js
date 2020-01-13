@@ -26,7 +26,8 @@ export const createAxisArrow = (origin, direction, color, len, modelName) => {
   return arrow;
 };
 
-export const createTickPlane = (dirIdx, color, position, modelName) => {
+export const createTickPlane = (dirIdx, color, position,
+    modelName, axisName, axisValue) => {
   const size = [PLANE_SIZE, PLANE_SIZE, PLANE_SIZE];
   size[dirIdx] = PLANE_THICKNESS;
   const geometry = new THREE.BoxGeometry(...size);
@@ -34,9 +35,14 @@ export const createTickPlane = (dirIdx, color, position, modelName) => {
       {color: color, side: THREE.DoubleSide});
   const plane = new THREE.Mesh(geometry, material);
   plane.position.set(...position);
-  plane.userData.model = modelName;
   plane.visible = false;
   plane.castShadow = true;
   plane.receiveShadow = true;
+  plane.userData = {
+    isTick: true,
+    model: modelName,
+    axis: axisName,
+    value: axisValue,
+  };
   return plane;
 };
