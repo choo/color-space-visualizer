@@ -22,7 +22,9 @@ const App = (props) => {
       <Container maxWidth='md' className={classes.container}>
 
         <div className={classes.header}>
-          <img  className={classes.logo} src={'logo_20_02.png'} alt={'logo'} />
+          <a href='/'>
+            <img className={classes.logo} src={'logo_20_02.png'} alt={'logo'} />
+          </a>
         </div>
 
         <div className={classes.infoButton}>
