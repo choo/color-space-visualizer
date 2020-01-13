@@ -1,6 +1,5 @@
 import * as THREE from "three";
 
-export const OBJ_NAME = 'COLOR_CUBE';
 export const PLANE_THICKNESS = 1;
 export const PLANE_SIZE = 5
 
@@ -12,7 +11,6 @@ export const createCubeMesh = (size, color, x, y, z) => {
   mesh.receiveShadow = true;
   mesh.material.transparent = true;
   mesh.position.set(x, y, z);
-  mesh.name = OBJ_NAME;
   return mesh;
 };
 

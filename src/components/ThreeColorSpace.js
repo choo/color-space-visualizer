@@ -5,7 +5,6 @@ import OrbitControls from "three-orbitcontrols";
 
 import { createRGBCubes, createRGBAxes } from '../RGBCubes';
 import { addHSVProps, createHSVAxes } from '../HSVCubes';
-import { OBJ_NAME} from '../CubeUtils';
 
 const OPACITY_TRANSPARENT = 0.15;
 
