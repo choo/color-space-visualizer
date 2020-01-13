@@ -46,7 +46,8 @@ const _sortByColor = (a, b) => {
 
 
 const createRGBAxes = () => {
-  const ret = [];
+  const axes = [];
+  const ticks = [];
   const origin = getCubePosition(0, 0, 0);
   const len = 120;
   const colors = [0xff0000, 0x00ff00, 0x0000ff];
@@ -54,14 +55,14 @@ const createRGBAxes = () => {
     const direction = [0, 0, 0];
     direction[i] = 1;
     const axis = createAxisArrow(origin, direction, colors[i], len, 'RGB');
-    ret.push(axis);
+    axes.push(axis);
 
-    const ticks = makeAxisTick(i, colors[i]);
-    for (const tick of ticks) {
-      ret.push(tick);
+    const axisTicks = makeAxisTick(i, colors[i]);
+    for (const tick of axisTicks) {
+      ticks.push(tick);
     }
   }
-  return ret
+  return [axes, ticks];
 };
 
 

@@ -42,7 +42,8 @@ const addHSVProps = (cubes) => {
 };
 
 const createAxes = () => {
-  const ret = [];
+  const axes = [];
+  const ticks = [];
   const conf = [
     // saturation
     {
@@ -61,7 +62,7 @@ const createAxes = () => {
   ];
   for (const c of conf) {
     const axis = createAxisArrow(c.origin, c.dir, c.color, c.len, 'HSV');
-    ret.push(axis);
+    axes.push(axis);
   }
 
   // tick for saturation axis
@@ -71,7 +72,7 @@ const createAxes = () => {
     pos[0] += PLANE_THICKNESS / 2;
     pos[1] += PLANE_SIZE / 2;
     const plane = createTickPlane(0, 0xdddddd, pos, 'HSV', 'S', saturation);
-    ret.push(plane);
+    ticks.push(plane);
   }
 
   // tick for value axis
@@ -80,11 +81,11 @@ const createAxes = () => {
     const pos = getCubePosition(180, 0, value);
     pos[0] -= PLANE_SIZE / 2;
     const plane = createTickPlane(1, 0xdddddd, pos, 'HSV', 'V', value);
-    ret.push(plane);
+    ticks.push(plane);
   }
 
   // hue
-  ret.push(createColorHueRing());
+  axes.push(createColorHueRing());
   for (let i = 0; i < NUM; i++) {
     const degree = 360.0 / NUM * i;
     const rad = (Math.PI / 180) * degree;
@@ -95,10 +96,10 @@ const createAxes = () => {
     const color = hsv2rgb(degree, 100.0, 100.0);
     const plane = createTickPlane(2, color, pos, 'HSV', 'H', degree);
     plane.rotation.y = -rad;
-    ret.push(plane);
+    ticks.push(plane);
   }
 
-  return ret;
+  return [axes, ticks];
 };
 
 const createColorHueRing = () => {
