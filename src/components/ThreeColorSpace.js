@@ -203,7 +203,14 @@ class ThreeColorSpace extends React.Component {
       if (coords.x !== this.evtCoords.x || coords.y !== this.evtCoords.y) {
         return;
       }
-      const selected = this.getIntersectCubes(e, camera);
+      const intersects = _getIntersectObjects(e, scene, camera);
+      let selected = null;
+      if (intersects.length > 0) {
+        const mesh = intersects[0].object;
+        if (mesh.name === OBJ_NAME) {
+          selected = mesh;
+        }
+      }
       if (selected) {
         /* reset rotation of cube previously selected */
         this.selectedCube.rotation.set(0, 0, 0);
@@ -286,23 +293,6 @@ class ThreeColorSpace extends React.Component {
     }
   }
 
-  getIntersectCubes = (event, camera) => {
-    const raycaster = new THREE.Raycaster();
-    event.preventDefault();
-    const coords = _getEventCoords(event);
-    raycaster.setFromCamera(coords, camera);
-    const cubes = this.scene.children
-    const intersects = raycaster.intersectObjects(cubes);
-    if (intersects.length > 0) {
-      const mesh = intersects[0].object;
-      if (mesh.name === OBJ_NAME) {
-        return mesh;
-      }
-    }
-    return null;
-  };
-
-
   render() {
     return (
       <div ref={this.divRef}/>
@@ -338,6 +328,16 @@ const _getEventCoords = (e) => {
   };
   return coords;
 };
+
+const _getIntersectObjects = (event, scene, camera) => {
+  const raycaster = new THREE.Raycaster();
+  event.preventDefault();
+  const coords = _getEventCoords(event);
+  raycaster.setFromCamera(coords, camera);
+  const intersects = raycaster.intersectObjects(scene.children);
+  return intersects;
+};
+
 
 
 export default ThreeColorSpace;
