@@ -235,7 +235,8 @@ class ThreeColorSpace extends React.Component {
   selectAxis (selected) {
     const model = this.props.model;
     this.selectedAxis = {
-      axis: selected.userData.axis,
+      model: model,
+      axis:  selected.userData.axis,
       value: selected.userData.value,
     };
     this.updateCubes(this.props.previewing, this.props.showingAxes);
@@ -262,7 +263,7 @@ class ThreeColorSpace extends React.Component {
   }
 
   highlightAxisCubes () {
-    const model = this.props.model;
+    const model = this.selectedAxis.model;
     const axis  = this.selectedAxis.axis;
     const value = this.selectedAxis.value;
     for (let cube of this.cubes) {
