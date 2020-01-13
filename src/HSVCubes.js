@@ -137,7 +137,7 @@ const createHueRing = () => {
   }
   const material = new THREE.LineBasicMaterial({color: 0xff0000});
   const line = new THREE.Line(geometry, material);
-  line.material.linewidth = 3;
+  line.material.linewidth = 2;
   line.userData.model = 'HSV';
   line.visible = false;
   return line;
