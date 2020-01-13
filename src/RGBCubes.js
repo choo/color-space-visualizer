@@ -74,8 +74,8 @@ const makeAxisTick = (i, color) => {
     idx[i] = j;
     const pos = getCubePosition(...idx);
     pos[(0 + i) % 3] += PLANE_THICKNESS / 2;
-    pos[(1 + i) % 3] -= PLANE_SIZE / 2; // + 1.5;
-    pos[(2 + i) % 3] -= PLANE_SIZE / 2; // + 1.5;
+    pos[(1 + i) % 3] -= PLANE_SIZE / 2;
+    pos[(2 + i) % 3] -= PLANE_SIZE / 2;
 
     const plane = createTickPlane(i, color, pos, 'RGB');
     ret.push(plane);

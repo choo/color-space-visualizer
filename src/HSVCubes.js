@@ -83,11 +83,10 @@ const createAxes = () => {
   for (let i = 0; i < n; i++) {
     const degree = 360.0 / n * i;
     const rad = (Math.PI / 180) * degree;
-    const color = hsv2rgb(degree, 100.0, 100.0);
     const pos = getCubePosition(degree, 100.0, 100.0);
-    pos[1] += PLANE_SIZE / 2;
     pos[0] += PLANE_SIZE / 2 * Math.cos(rad);
     pos[2] += PLANE_SIZE / 2 * Math.sin(rad);
+    pos[1] += PLANE_SIZE / 2;
     const plane = createTickPlane(2, 0xff0000, pos, 'HSV');
     plane.rotation.y = -rad;
     ret.push(plane);
