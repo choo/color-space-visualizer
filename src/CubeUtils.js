@@ -38,6 +38,7 @@ export const createTickPlane = (dirIdx, color, position,
   plane.visible = false;
   plane.castShadow = true;
   plane.receiveShadow = true;
+  plane.material.transparent = true;
   plane.userData = {
     isTick: true,
     model: modelName,

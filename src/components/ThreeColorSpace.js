@@ -142,11 +142,16 @@ class ThreeColorSpace extends React.Component {
 
   addAxes () {
     this.axes = [];
-    const RGBAxes = createRGBAxes();
-    const HSVAxes = createAxes();
+    this.ticks = [];
+    const [RGBAxes, RGBTicks] = createRGBAxes();
+    const [HSVAxes, HSVTicks] = createAxes();
     for (const axis of RGBAxes.concat(HSVAxes)) {
       this.scene.add(axis);
       this.axes.push(axis);
+    }
+    for (const tick of RGBTicks.concat(HSVTicks)) {
+      this.scene.add(tick);
+      this.ticks.push(tick);
     }
   }
 
@@ -240,6 +245,7 @@ class ThreeColorSpace extends React.Component {
       value: selected.userData.value,
     };
     this.updateCubes(this.props.previewing, this.props.showingAxes);
+    this.updateTicks(this.props.previewing, this.props.showingAxes, model);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -247,6 +253,7 @@ class ThreeColorSpace extends React.Component {
     this.moveCubes(model);
     this.updateCubes(nextProps.previewing, nextProps.showingAxes);
     this.updateAxes(nextProps.previewing, nextProps.showingAxes, model);
+    this.updateTicks(nextProps.previewing, nextProps.showingAxes, model);
     return false;
   }
 
@@ -302,6 +309,38 @@ class ThreeColorSpace extends React.Component {
         axis.visible = showingAxes;
       } else {
         axis.visible = !showingAxes;
+      }
+    }
+  }
+
+  updateTicks (previewing, showingAxes, model) {
+    const OPACITY_NOT_SELECTED = 0.3;
+    const OPACITY_ALL_DISPLAYED = 0.8;
+    for (const tick of this.ticks) {
+      if (!showingAxes) {
+        tick.visible = false;
+
+      } else if (tick.userData.model !== model) {
+        /* tick of currently invisible model */
+        clearCube(tick);
+
+      } else {
+        /* showingAxes && showing model */
+        if (this.selectedAxis) {
+          const axis  = this.selectedAxis.axis;
+          const value = this.selectedAxis.value;
+          if (axis === tick.userData.axis && value === tick.userData.value) {
+            /* tick of selected axis */
+            showCube(tick);
+          } else {
+            /* not selected */
+            toTransparent(tick, OPACITY_NOT_SELECTED);
+          }
+
+        } else {
+          /* axis has NOT yet been selected */
+          toTransparent(tick, OPACITY_ALL_DISPLAYED);
+        }
       }
     }
   }
@@ -371,6 +410,7 @@ const _getIntersectObjects = (event, scene, camera) => {
 
 const toTransparent = (cube, opacity) => {
   opacity = opacity || OPACITY_TRANSPARENT;
+  cube.visible = true;
   cube.castShadow = false;
   cube.receiveShadow = false;
   cube.material.visible = true;
@@ -378,6 +418,7 @@ const toTransparent = (cube, opacity) => {
 }
 
 const showCube = cube => {
+  cube.visible = true;
   cube.castShadow = true;
   cube.receiveShadow = true;
   cube.material.visible = true;
@@ -385,6 +426,7 @@ const showCube = cube => {
 }
 
 const clearCube = cube => {
+  cube.visible = false;
   cube.material.visible = false;
 }
 
