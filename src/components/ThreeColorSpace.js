@@ -252,14 +252,13 @@ class ThreeColorSpace extends React.Component {
 
   clearAllCubes () {
     for (let cube of this.cubes) {
-      cube.material.visible = true;
-      cube.material.opacity = OPACITY_TRANSPARENT;
+      toTransparent(cube);
     }
   }
 
   highlightCubes () {
     this.clearAllCubes();
-    this.selectedCube.material.opacity = 1.0;
+    showCube(this.selectedCube);
   }
 
   highlightAxisCubes () {
@@ -268,18 +267,16 @@ class ThreeColorSpace extends React.Component {
     const value = this.selectedAxis.value;
     for (let cube of this.cubes) {
       if (cube.userData[model].vals[axis] === value) {
-        cube.material.visible = true;
-        cube.material.opacity = 1.0;
+        showCube(cube);
       } else {
-        cube.material.visible = false;
+        toTransparent(cube, 0.1);
       }
     }
   }
 
   displayAllCubes () {
     for (let cube of this.cubes) {
-      cube.material.visible = true;
-      cube.material.opacity = 1.0;
+      showCube(cube);
     }
   }
 
@@ -372,5 +369,23 @@ const _getIntersectObjects = (event, scene, camera) => {
 };
 
 
+const toTransparent = (cube, opacity) => {
+  opacity = opacity || OPACITY_TRANSPARENT;
+  cube.castShadow = false;
+  cube.receiveShadow = false;
+  cube.material.visible = true;
+  cube.material.opacity = opacity;
+}
+
+const showCube = cube => {
+  cube.castShadow = true;
+  cube.receiveShadow = true;
+  cube.material.visible = true;
+  cube.material.opacity = 1.0;
+}
+
+const clearCube = cube => {
+  cube.material.visible = false;
+}
 
 export default ThreeColorSpace;
