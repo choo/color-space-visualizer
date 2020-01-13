@@ -15,7 +15,6 @@ const makeHeaderStyle = (theme, space) => {
   return {
     top: theme.spacing(space),
     left: theme.spacing(space),
-    //right: theme.spacing(space),
   };
 };
 const makeLogoStyle = (height) => {
