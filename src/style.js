@@ -24,6 +24,12 @@ const makeLogoStyle = (height) => {
   };
 };
 
+const makeInfoStyle = (theme, space) => {
+  return {
+    top: theme.spacing(space),
+    right: theme.spacing(space),
+  };
+};
 const makeButtonsStyle = (theme, space) => {
   return {
     bottom: theme.spacing(space),
@@ -54,6 +60,12 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('sm')]: makeLogoStyle(logoSize.sm),
     [theme.breakpoints.up('sm')]  : makeLogoStyle(logoSize.md),
     [theme.breakpoints.up('lg')]  : makeLogoStyle(logoSize.lg),
+  },
+  infoButton: {
+    position: 'absolute',
+    [theme.breakpoints.down('sm')]: makeInfoStyle(theme, SPACING.sm),
+    [theme.breakpoints.up('sm')]  : makeInfoStyle(theme, SPACING.md),
+    [theme.breakpoints.up('lg')]  : makeInfoStyle(theme, SPACING.lg),
   },
   controlButtons: {
     position: 'absolute',
