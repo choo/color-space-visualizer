@@ -81,9 +81,9 @@ const useStyles = makeStyles(theme => ({
     padding: '0 8px',
   },
   showAxes: {
-    backgroundColor: '#dddddd',
+    backgroundColor: '#ffffff',
     "&:hover, &:focus": {
-      backgroundColor: '#dddddd',
+      backgroundColor: '#ffffff',
     },
   },
 }));
