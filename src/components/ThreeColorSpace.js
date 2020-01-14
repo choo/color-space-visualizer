@@ -190,10 +190,16 @@ class ThreeColorSpace extends React.Component {
       let selected = null;
       for (const intersect of intersects) {
         const mesh = intersect.object;
-        if (this.props.showingAxes && mesh.userData.isTick &&
-            mesh.userData.model === this.props.model) {
-          this.selectAxis(mesh);
-          return;
+        if (this.props.showingAxes) {
+          if (mesh.userData.isCube && mesh.userData.isShowing) {
+            this.selectCube(mesh);
+            return;
+          }
+          if (mesh.userData.isTick &&
+              mesh.userData.model === this.props.model) {
+            this.selectAxis(mesh);
+            return;
+          }
         }
         if (!this.props.showingAxes && mesh.userData.isCube) {
           this.selectCube(mesh);
@@ -406,6 +412,7 @@ const toTransparent = (obj, opacity) => {
   obj.receiveShadow = false;
   obj.material.visible = true;
   obj.material.opacity = opacity;
+  obj.userData.isShowing = false;
 }
 
 const showObj = obj => {
@@ -414,6 +421,7 @@ const showObj = obj => {
   obj.receiveShadow = true;
   obj.material.visible = true;
   obj.material.opacity = 1.0;
+  obj.userData.isShowing = true;
 }
 
 const clearObject = obj => {
