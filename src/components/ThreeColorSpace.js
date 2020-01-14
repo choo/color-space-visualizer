@@ -273,7 +273,7 @@ class ThreeColorSpace extends React.Component {
           axisInfo.forceShow && axisInfo.forceShow[axis]) {
         showObj(cube);
       } else {
-        toTransparent(cube, 0.1);
+        toTransparent(cube);
       }
     }
   }
