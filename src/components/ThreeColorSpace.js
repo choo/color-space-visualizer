@@ -118,27 +118,6 @@ class ThreeColorSpace extends React.Component {
     return scene;
   }
 
-  addAxes_ () {
-    //const axesHelper = new THREE.AxesHelper(2000);
-    //scene.add(axesHelper);
-    const pos = this.cubes[0].position;
-    console.log(pos);
-
-    const material = new THREE.LineBasicMaterial({
-      linewidth: 3,
-      color: 0x00ff00
-    });
-
-    const geometry = new THREE.Geometry();
-    geometry.vertices.push(
-      pos,
-      new THREE.Vector3( 0, 1000, 0 ),
-    );
-
-    const line = new THREE.Line( geometry, material );
-    this.scene.add( line );
-  }
-
   addAxes () {
     this.axes = [];
     this.ticks = [];
