@@ -36,6 +36,7 @@ const App = (props) => {
           previewing={previewing}
           showingAxes={showingAxes}
           onSelectColor={rgb => {setColor(rgb)}}
+          setPreviewing={setPreviewing}
         />
 
         <div className={classes.controlButtons}>

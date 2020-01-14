@@ -224,6 +224,7 @@ class ThreeColorSpace extends React.Component {
     };
     this.updateCubes(this.props.previewing, this.props.showingAxes);
     this.updateTicks(this.props.previewing, this.props.showingAxes, model);
+    this.props.setPreviewing(false);
   }
 
   shouldComponentUpdate(nextProps) {
