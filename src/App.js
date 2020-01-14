@@ -49,6 +49,12 @@ const App = (props) => {
             onClick={() => setPreviewing(!previewing)}
             aria-label="color preview"
           >
+            <Checkbox
+              checked={previewing}
+              style={{
+                color: selectTextColor(selecedColor),
+              }}
+              value="color preview" />
             {selecedColor}
           </Button>
 
@@ -57,7 +63,10 @@ const App = (props) => {
             onClick={() => setShowingAxes(!showingAxes)}
             aria-label="show axes"
           >
-            {showingAxes ? 'hide' : 'show'} axes
+            <Checkbox
+              checked={showingAxes}
+              value="show axes" />
+            {'axis'}
           </Button>
 
           <ButtonGroup
