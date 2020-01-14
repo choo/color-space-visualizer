@@ -262,7 +262,9 @@ class ThreeColorSpace extends React.Component {
     const axis  = this.selectedAxis.axis;
     const value = this.selectedAxis.value;
     for (let cube of this.cubes) {
-      if (cube.userData[model].vals[axis] === value) {
+      const axisInfo = cube.userData[model]
+      if (axisInfo.vals[axis] === value ||
+          axisInfo.forceShow && axisInfo.forceShow[axis]) {
         showObj(cube);
       } else {
         toTransparent(cube, 0.1);
