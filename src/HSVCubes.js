@@ -29,6 +29,11 @@ const addHSVProps = (cubes) => {
             S: saturation,
             V: value,
           },
+          forceShow: {
+            // if saturation is 0,
+            // show this cube whenever filtered by any hue value
+            H: saturation === 0,
+          }
         });
       }
     }
