@@ -5,7 +5,7 @@ export const PLANE_SIZE = 5
 
 export const createCubeMesh = (size, color, x, y, z) => {
   const geometry = new THREE.CubeGeometry(size, size, size);
-  const material = new THREE.MeshPhongMaterial({color: color});
+  const material = new THREE.MeshLambertMaterial({color: color});
   const mesh = new THREE.Mesh(geometry, material);
   mesh.castShadow = true;
   mesh.receiveShadow = true;
@@ -29,7 +29,7 @@ export const createTickPlane = (dirIdx, color, position,
   const size = [PLANE_SIZE, PLANE_SIZE, PLANE_SIZE];
   size[dirIdx] = PLANE_THICKNESS;
   const geometry = new THREE.BoxGeometry(...size);
-  const material = new THREE.MeshPhongMaterial(
+  const material = new THREE.MeshLambertMaterial(
       {color: color, side: THREE.DoubleSide});
   const plane = new THREE.Mesh(geometry, material);
   plane.position.set(...position);
