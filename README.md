@@ -22,7 +22,7 @@ and realize that the colorful world we are living is so beautiful!
 Demo
 ----
 
-[demo](https://colorspace.choo.work/)
+[demo](https://colorspace.choo.works/)
 
 Note that this app is battery consuming on smart phones, because it uses GPU heavily to display 3D graphics smoothly.
 
