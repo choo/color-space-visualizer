@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import useStyles from './style.js';
 import ThreeColorSpace from './components/ThreeColorSpace';
