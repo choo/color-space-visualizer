@@ -217,11 +217,21 @@ class ThreeColorSpace extends React.Component {
 
   selectAxis (selected) {
     const model = this.props.model;
-    this.selectedAxis = {
-      model: model,
-      axis:  selected.userData.axis,
-      value: selected.userData.value,
-    };
+
+    if (this.selectedAxis &&
+        this.selectedAxis.model === model &&
+        this.selectedAxis.axis  === selected.userData.axis &&
+        this.selectedAxis.value === selected.userData.value) {
+      /* if selected axis is the currently selected axis,
+       * turn off that filtering */
+      this.selectedAxis = null;
+    } else {
+      this.selectedAxis = {
+        model: model,
+        axis:  selected.userData.axis,
+        value: selected.userData.value,
+      };
+    }
     this.updateCubes(this.props.previewing, this.props.showingAxes);
     this.updateTicks(this.props.previewing, this.props.showingAxes, model);
     this.props.setPreviewing(false);
