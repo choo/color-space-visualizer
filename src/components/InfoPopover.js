@@ -49,12 +49,12 @@ export default function InfoPopover() {
         }}
       >
         <Typography className={classes.typography}>
-          <a target='_blank'
+          <a target='_blank' rel="noopener noreferrer"
             href='https://github.com/choo/color-space-visualizer'>
             <img  className={classes.image}
               src={'GitHub-Mark-64px.png'} alt={'GitHub Link'} />
           </a>
-          <a target='_blank'
+          <a target='_blank' rel="noopener noreferrer"
             href='https://twitter.com/choo_s'>
             <img  className={classes.image}
               src={'Twitter_Social_Icon_Rounded_Square_Color.png'}
