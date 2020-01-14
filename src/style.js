@@ -78,7 +78,7 @@ const useStyles = makeStyles(theme => ({
   colorPreview: {
     marginBottom: 8,
     width: 127,
-    height: 40,
+    padding: '0 8px',
   },
   showAxes: {
     backgroundColor: '#dddddd',
