@@ -94,6 +94,7 @@ const useStyles = makeStyles(theme => ({
   },
   buttons: {
     height: '42px',
+    marginRight: '6px',
   }
 }));
 
