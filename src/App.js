@@ -62,16 +62,6 @@ const App = (props) => {
           </div>
 
           <div className={classes.buttonBox}>
-            <Button
-              className={`${classes.colorPreview} ${classes.showAxes}`}
-              onClick={() => setShowingAxes(!showingAxes)}
-              aria-label="show axes"
-            >
-              <Checkbox
-                checked={showingAxes}
-                value="show axes" />
-              {'axis'}
-            </Button>
 
             <ButtonGroup
               className={classes.buttons}
@@ -91,6 +81,18 @@ const App = (props) => {
                 )
               })}
             </ButtonGroup>
+
+            <Button
+              className={`${classes.colorPreview} ${classes.showAxes}`}
+              onClick={() => setShowingAxes(!showingAxes)}
+              aria-label="show axes"
+            >
+              <Checkbox
+                checked={showingAxes}
+                value="show axes" />
+              {'axis'}
+            </Button>
+
           </div>
         </div>
 
