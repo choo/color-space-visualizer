@@ -41,53 +41,57 @@ const App = (props) => {
         />
 
         <div className={classes.controlButtons}>
-          <Button
-            className={classes.colorPreview}
-            style={{
-              backgroundColor: selecedColor,
-              color: selectTextColor(selecedColor),
-            }}
-            onClick={() => setPreviewing(!previewing)}
-            aria-label="color preview"
-          >
-            <Checkbox
-              checked={previewing}
+          <div className={classes.buttonBox}>
+            <Button
+              className={classes.colorPreview}
               style={{
+                backgroundColor: selecedColor,
                 color: selectTextColor(selecedColor),
               }}
-              value="color preview" />
-            {selecedColor}
-          </Button>
+              onClick={() => setPreviewing(!previewing)}
+              aria-label="color preview"
+            >
+              <Checkbox
+                checked={previewing}
+                style={{
+                  color: selectTextColor(selecedColor),
+                }}
+                value="color preview" />
+              {selecedColor}
+            </Button>
+          </div>
 
-          <Button
-            className={`${classes.colorPreview} ${classes.showAxes}`}
-            onClick={() => setShowingAxes(!showingAxes)}
-            aria-label="show axes"
-          >
-            <Checkbox
-              checked={showingAxes}
-              value="show axes" />
-            {'axis'}
-          </Button>
+          <div className={classes.buttonBox}>
+            <Button
+              className={`${classes.colorPreview} ${classes.showAxes}`}
+              onClick={() => setShowingAxes(!showingAxes)}
+              aria-label="show axes"
+            >
+              <Checkbox
+                checked={showingAxes}
+                value="show axes" />
+              {'axis'}
+            </Button>
 
-          <ButtonGroup
-            className={classes.buttons}
-            orientation="vertical"
-            color="secondary"
-            aria-label="color model buttons"
-          >
-            {MODEL_NAMES.map(modelName => {
-              return (
-                <Button
-                  key={modelName}
-                  variant={model === modelName ? 'contained' : 'outlined'}
-                  onClick={e => {setModel(modelName)}}
-                >
-                  {modelName}
-                </Button>
-              )
-            })}
-          </ButtonGroup>
+            <ButtonGroup
+              className={classes.buttons}
+              orientation="vertical"
+              color="secondary"
+              aria-label="color model buttons"
+            >
+              {MODEL_NAMES.map(modelName => {
+                return (
+                  <Button
+                    key={modelName}
+                    variant={model === modelName ? 'contained' : 'outlined'}
+                    onClick={e => {setModel(modelName)}}
+                  >
+                    {modelName}
+                  </Button>
+                )
+              })}
+            </ButtonGroup>
+          </div>
         </div>
 
       </Container>

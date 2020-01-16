@@ -69,11 +69,17 @@ const useStyles = makeStyles(theme => ({
   controlButtons: {
     position: 'absolute',
     display: 'flex',
+    justify: 'flex-end',
     flexDirection: 'column',
-    alignItems: 'flex-end',
     [theme.breakpoints.down('sm')]: makeButtonsStyle(theme, SPACING.sm),
     [theme.breakpoints.up('sm')]  : makeButtonsStyle(theme, SPACING.md),
     [theme.breakpoints.up('lg')]  : makeButtonsStyle(theme, SPACING.lg),
+  },
+  buttonBox: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-start',
   },
   colorPreview: {
     marginBottom: 8,
@@ -86,6 +92,9 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: '#ffffff',
     },
   },
+  buttons: {
+    height: '42px',
+  }
 }));
 
 export default useStyles;
