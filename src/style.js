@@ -51,6 +51,7 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     flexGrow: 1,
     display: 'flex',
+    flexDirection: 'column',
     [theme.breakpoints.down('sm')]: makeHeaderStyle(theme, SPACING.sm),
     [theme.breakpoints.up('sm')]  : makeHeaderStyle(theme, SPACING.md),
     [theme.breakpoints.up('lg')]  : makeHeaderStyle(theme, SPACING.lg),
@@ -59,6 +60,10 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('sm')]: makeLogoStyle(logoSize.sm),
     [theme.breakpoints.up('sm')]  : makeLogoStyle(logoSize.md),
     [theme.breakpoints.up('lg')]  : makeLogoStyle(logoSize.lg),
+  },
+  version: {
+    marginTop: '12px',
+    height: '36px',
   },
   infoButton: {
     position: 'absolute',
