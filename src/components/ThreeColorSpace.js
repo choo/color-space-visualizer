@@ -26,7 +26,7 @@ class ThreeColorSpace extends React.Component {
 
       fov  : 60,   // field of view
       near : 1,    // near clip
-      far  : 10000,// far clip
+      far  : 200,  // far clip
 
       // for RGB
       cameraPosition: [240, 160, 200],
