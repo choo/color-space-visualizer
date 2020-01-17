@@ -3,8 +3,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
 import InfoIcon from '@material-ui/icons/Info';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 const useStyles = makeStyles(theme => ({
+  version: {
+    marginTop: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
   linkBox: {
     padding: theme.spacing(1),
     paddingRight: theme.spacing(0),
@@ -20,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function InfoPopover() {
+export default function InfoPopover(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClick = event => {
@@ -51,6 +58,27 @@ export default function InfoPopover() {
           horizontal: 'center',
         }}
       >
+        <ButtonGroup
+          size="small"
+          className={classes.version}
+          color="secondary"
+          aria-label="version buttons"
+        >
+          <Button
+            key='basic'
+            variant={!props.isLite ? 'contained' : 'outlined'}
+            href="/"
+          >
+            basic
+          </Button>
+          <Button
+            key='lite'
+            variant={props.isLite ? 'contained' : 'outlined'}
+            href="/?lite=true"
+          >
+            Lite
+          </Button>
+        </ButtonGroup>
         <div className={classes.linkBox}>
           <span>source code:</span>
           <a target='_blank' rel="noopener noreferrer"

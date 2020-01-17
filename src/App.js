@@ -35,31 +35,10 @@ const App = (props) => {
           <a href='/'>
             <img className={classes.logo} src={'logo_20_02.png'} alt={'logo'} />
           </a>
-          <ButtonGroup
-            size="small"
-            className={classes.version}
-            color="secondary"
-            aria-label="version buttons"
-          >
-            <Button
-              key='basic'
-              variant={!isLite ? 'contained' : 'outlined'}
-              href="/"
-            >
-              basic
-            </Button>
-            <Button
-              key='lite'
-              variant={isLite ? 'contained' : 'outlined'}
-              href="/?lite=true"
-            >
-              Lite
-            </Button>
-          </ButtonGroup>
         </div>
 
         <div className={classes.infoButton}>
-          <InfoPopover />
+          <InfoPopover isLite={isLite}/>
         </div>
 
         <ThreeColorSpace
