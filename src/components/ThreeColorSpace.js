@@ -169,7 +169,7 @@ class ThreeColorSpace extends React.Component {
       this.currentSpin *= SPIN_DAMPING_FACTOR;
     } else if (Math.abs(
           this.selectedCube.rotation.y % (Math.PI / 2.0)) < 0.09) {
-      /* spinning stop */
+      /* stop spinning */
       this.currentSpin = 0.0;
       this.selectedCube.rotation.set(0, 0, 0);
       this.updateCubes(this.props.previewing, this.props.showingAxes);
