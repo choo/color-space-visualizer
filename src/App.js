@@ -100,7 +100,7 @@ const App = (props) => {
               <Checkbox
                 checked={showingAxes}
                 value="show axes" />
-              {'axis'}
+              {`${model} axis`}
             </Button>
 
           </div>

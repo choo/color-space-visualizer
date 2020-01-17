@@ -83,9 +83,11 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'flex-start',
   },
   colorPreview: {
+    marginLeft: 8,
     marginBottom: 8,
-    width: 127,
+    width: 130,
     padding: '0 8px',
+    justifyContent: 'flex-start',
   },
   showAxes: {
     backgroundColor: '#ffffff',
