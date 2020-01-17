@@ -298,6 +298,7 @@ class ThreeColorSpace extends React.Component {
       if (axisInfo.vals[axis] === value ||
           (axisInfo.forceShow && axisInfo.forceShow[axis])) {
         if (this.rippleRadius) {
+          toTransparent(cube);
           this.waitingHighlightCubes.push(cube);
         } else {
           showObj(cube);
