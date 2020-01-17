@@ -6,12 +6,16 @@ import Button from '@material-ui/core/Button';
 import InfoIcon from '@material-ui/icons/Info';
 
 const useStyles = makeStyles(theme => ({
-  typography: {
+  linkBox: {
     padding: theme.spacing(1),
     paddingRight: theme.spacing(0),
-    backgroundColor: '#cccccc',
+    backgroundColor: '#ffffff',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   image: {
+    marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
     width: 32,
   },
@@ -48,19 +52,23 @@ export default function InfoPopover() {
           horizontal: 'center',
         }}
       >
-        <Typography className={classes.typography}>
+        <div className={classes.linkBox}>
+          <span>source code:</span>
           <a target='_blank' rel="noopener noreferrer"
             href='https://github.com/choo/color-space-visualizer'>
             <img  className={classes.image}
               src={'GitHub-Mark-64px.png'} alt={'GitHub Link'} />
           </a>
+        </div>
+        <div className={classes.linkBox}>
+          <span>author:</span>
           <a target='_blank' rel="noopener noreferrer"
             href='https://twitter.com/choo_s'>
             <img  className={classes.image}
               src={'Twitter_Social_Icon_Rounded_Square_Color.png'}
               alt={'twitter Link'} />
           </a>
-        </Typography>
+        </div>
       </Popover>
     </div>
   );
