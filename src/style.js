@@ -61,10 +61,6 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('sm')]  : makeLogoStyle(logoSize.md),
     [theme.breakpoints.up('lg')]  : makeLogoStyle(logoSize.lg),
   },
-  version: {
-    marginTop: '12px',
-    height: '36px',
-  },
   infoButton: {
     position: 'absolute',
     [theme.breakpoints.down('sm')]: makeInfoStyle(theme, SPACING.sm),
