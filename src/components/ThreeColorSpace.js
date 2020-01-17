@@ -29,8 +29,8 @@ class ThreeColorSpace extends React.Component {
       far  : 10000,// far clip
 
       // for RGB
-      cameraPosition: [240, 240, 200],
-      cameraLookAt:   [0, 50, 0],
+      cameraPosition: [240, 160, 200],
+      cameraLookAt:   [0, 70, 0],
 
       lights: {
         ambient: [0xffffff, 1.0],  // color, strength
