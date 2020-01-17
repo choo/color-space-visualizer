@@ -80,7 +80,7 @@ export default function InfoPopover(props) {
           </Button>
         </ButtonGroup>
         <div className={classes.linkBox}>
-          <span>source code:</span>
+          <span>source code</span>
           <a target='_blank' rel="noopener noreferrer"
             href='https://github.com/choo/color-space-visualizer'>
             <img  className={classes.image}
@@ -88,7 +88,7 @@ export default function InfoPopover(props) {
           </a>
         </div>
         <div className={classes.linkBox}>
-          <span>author:</span>
+          <span>author</span>
           <a target='_blank' rel="noopener noreferrer"
             href='https://twitter.com/choo_s'>
             <img  className={classes.image}
