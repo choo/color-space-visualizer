@@ -35,7 +35,7 @@ class ThreeColorSpace extends React.Component {
       lights: {
         ambient: [0xffffff, 1.0],  // color, strength
         point: {
-          castShadow: !(this.props.isLite),
+          castShadow: !this.props.isLite,
           config: [0xffffff, 1, 500], // color, strength, distance, decay
           position: [0, 300, 0]
         },
@@ -47,7 +47,7 @@ class ThreeColorSpace extends React.Component {
     const width = this.divRef.current.parentNode.offsetWidth - 2;
     const height = window.innerHeight;
     const renderer = this.makeRenderer(width, height);
-    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.enabled = !this.props.isLite;
 
     const camera = this.makeCamera(width, height);
     this.scene = this.makeScene();
