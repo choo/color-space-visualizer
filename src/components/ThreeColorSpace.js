@@ -35,7 +35,7 @@ class ThreeColorSpace extends React.Component {
       lights: {
         ambient: [0xffffff, 1.0],  // color, strength
         point: {
-          castShadow: true,
+          castShadow: !(this.props.isLite),
           config: [0xffffff, 1, 500], // color, strength, distance, decay
           position: [0, 300, 0]
         },
@@ -85,7 +85,9 @@ class ThreeColorSpace extends React.Component {
     const renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setSize(width, height);
     renderer.setClearColor(this.attrs.color, 1.0);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    if (!this.props.isLite) {
+      renderer.setPixelRatio(window.devicePixelRatio);
+    }
     return renderer;
   }
 

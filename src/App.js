@@ -13,6 +13,15 @@ const MODEL_NAMES = ['RGB', 'HSV'];
 
 
 const App = (props) => {
+  const params = {};
+  if (window.location.search) {
+    const queries = window.location.search.slice(1).split('&');
+    for (const q of queries) {
+      const [k, v] = q.split('=');
+      params[k] = v
+    }
+  }
+  const isLite  = params.lite && params.lite === 'true' ? true : false;
   const classes = useStyles();
   const [model, setModel] = useState(MODEL_NAMES[0]);
   const [selecedColor, setColor] = useState('#ffffff');
@@ -38,6 +47,7 @@ const App = (props) => {
           showingAxes={showingAxes}
           onSelectColor={rgb => {setColor(rgb)}}
           setPreviewing={setPreviewing}
+          isLite={isLite}
         />
 
         <div className={classes.controlButtons}>
