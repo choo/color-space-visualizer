@@ -72,6 +72,9 @@ class ThreeColorSpace extends React.Component {
       if (this.currentSpin) {
         this.spinSelectedCube();
       }
+      if (this.rippleRadius) {
+        this.rippleCubes();
+      }
       this.rendererRender();
       requestAnimationFrame(tick);
     };
@@ -173,6 +176,24 @@ class ThreeColorSpace extends React.Component {
     }
   }
 
+  rippleCubes () {
+    const MAX_RADIUS = 200;
+    const RIPPLE_SPEED = 6;
+    for (const cube of this.waitingHighlightCubes) {
+      const sqRadius = this.rippleRadius * this.rippleRadius;
+      const dis = calcDistanceSquare(cube.position, this.selectedAxis.position);
+      if (dis < sqRadius) {
+        showObj(cube);
+      }
+    }
+    if (0 < this.rippleRadius && this.rippleRadius < MAX_RADIUS) {
+      this.rippleRadius += RIPPLE_SPEED;
+    } else {
+      /* stop rippling */
+      this.rippleRadius = 0;
+    }
+  }
+
   makeEventStart () {
     const onStart = (e) => {
       this.evtCoords = _getEventCoords(e);
@@ -231,11 +252,14 @@ class ThreeColorSpace extends React.Component {
       /* if selected axis is the currently selected axis,
        * turn off that filtering */
       this.selectedAxis = null;
+
     } else {
+      this.rippleRadius = 0.1;
       this.selectedAxis = {
         model: model,
         axis:  selected.userData.axis,
         value: selected.userData.value,
+        position: selected.userData.position,
       };
     }
     this.updateCubes(this.props.previewing, this.props.showingAxes);
@@ -264,6 +288,7 @@ class ThreeColorSpace extends React.Component {
   }
 
   highlightAxisCubes () {
+    this.waitingHighlightCubes = [];
     const model = this.selectedAxis.model;
     const axis  = this.selectedAxis.axis;
     const value = this.selectedAxis.value;
@@ -271,7 +296,11 @@ class ThreeColorSpace extends React.Component {
       const axisInfo = cube.userData[model]
       if (axisInfo.vals[axis] === value ||
           axisInfo.forceShow && axisInfo.forceShow[axis]) {
-        showObj(cube);
+        if (this.rippleRadius) {
+          this.waitingHighlightCubes.push(cube);
+        } else {
+          showObj(cube);
+        }
       } else {
         toTransparent(cube);
       }
@@ -427,6 +456,13 @@ const showObj = obj => {
 const clearObject = obj => {
   obj.visible = false;
   obj.material.visible = false;
+}
+
+const calcDistanceSquare = (v1, v2) => {
+  const dx = v1.x - v2.x;
+  const dy = v1.y - v2.y;
+  const dz = v1.z - v2.z;
+  return dx * dx + dy * dy + dz * dz;
 }
 
 export default ThreeColorSpace;

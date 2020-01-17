@@ -42,6 +42,7 @@ export const createTickPlane = (dirIdx, color, position,
     model: modelName,
     axis: axisName,
     value: axisValue,
+    position: plane.position,
   };
   return plane;
 };
