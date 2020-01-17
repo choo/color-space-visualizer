@@ -133,22 +133,6 @@ const createColorHueRing = () => {
   return line;
 };
 
-const createHueRing = () => {
-  const N = STEPS * NUM;
-  const geometry = new THREE.Geometry();
-  for (let i = 0; i <= N; i++) {
-    const degree = 360.0 / N * i;
-    const [x, y, z] = getCubePosition(degree, 100.0, 100.0);
-    geometry.vertices.push(new THREE.Vector3(x, y, z));
-  }
-  const material = new THREE.LineBasicMaterial({color: 0xff0000});
-  const line = new THREE.Line(geometry, material);
-  line.material.linewidth = 2;
-  line.userData.model = 'HSV';
-  line.visible = false;
-  return line;
-};
-
 const _sortByColor = (a, b) => {
   if (a.color > b.color) {
       return 1;

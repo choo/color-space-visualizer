@@ -37,9 +37,7 @@ const App = (props) => {
           </a>
           <ButtonGroup
             size="small"
-            orientation="vertical"
             className={classes.version}
-            orientation="vertical"
             color="secondary"
             aria-label="version buttons"
           >
