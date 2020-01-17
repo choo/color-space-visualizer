@@ -210,7 +210,6 @@ class ThreeColorSpace extends React.Component {
         return;
       }
       const intersects = _getIntersectObjects(e, scene, camera);
-      let selected = null;
       for (const intersect of intersects) {
         const mesh = intersect.object;
         if (this.props.showingAxes) {
@@ -297,7 +296,7 @@ class ThreeColorSpace extends React.Component {
     for (let cube of this.cubes) {
       const axisInfo = cube.userData[model]
       if (axisInfo.vals[axis] === value ||
-          axisInfo.forceShow && axisInfo.forceShow[axis]) {
+          (axisInfo.forceShow && axisInfo.forceShow[axis])) {
         if (this.rippleRadius) {
           this.waitingHighlightCubes.push(cube);
         } else {
