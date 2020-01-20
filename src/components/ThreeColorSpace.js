@@ -69,6 +69,8 @@ class ThreeColorSpace extends React.Component {
 
     const tick = () => {
       controls.update();
+
+      /* animation */
       if (this.currentSpin) {
         this.spinSelectedCube();
       }
@@ -255,6 +257,7 @@ class ThreeColorSpace extends React.Component {
       this.selectedAxis = null;
 
     } else {
+      /* start rippling */
       this.rippleRadius = 0.1;
       this.selectedAxis = {
         model: model,
