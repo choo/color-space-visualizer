@@ -17,6 +17,7 @@ class ThreeColorSpace extends React.Component {
     this.rendererRender = () => {};
     this.selectedCube = null;
     this.currentSpin = 0.0;
+    this.rippleRadius = 0.0;
     this.isMoving = false;
     this.cubes = null;
 
