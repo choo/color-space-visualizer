@@ -17,6 +17,7 @@ class ThreeColorSpace extends React.Component {
     this.rendererRender = () => {};
     this.selectedCube = null;
     this.currentSpin = 0.0;
+    this.isMoving = false;
     this.cubes = null;
 
     this.attrs = {
@@ -76,6 +77,9 @@ class ThreeColorSpace extends React.Component {
       }
       if (this.rippleRadius) {
         this.rippleCubes();
+      }
+      if (this.isMoving) {
+        this.moveCubes();
       }
       this.rendererRender();
       requestAnimationFrame(tick);
@@ -198,6 +202,29 @@ class ThreeColorSpace extends React.Component {
     }
   }
 
+  moveCubes () {
+    const DURATION = 40;
+    const nextModel = this.props.model;
+    const prevModel = (nextModel === 'RGB' ? 'HSV' : 'RGB');
+    let foundMoving = false;
+    for (const cube of this.cubes) {
+      const nextPos = new THREE.Vector3(...cube.userData[nextModel].position);
+      const currentPos = cube.position;
+      const diff = new THREE.Vector3().subVectors(nextPos, currentPos);
+      if (diff.length() < 2.0) {
+        cube.position.set(...cube.userData[nextModel].position);
+      } else {
+        foundMoving = true;
+        const prevPos = new THREE.Vector3(...cube.userData[prevModel].position);
+        const dirVec = new THREE.Vector3().subVectors(nextPos, prevPos);
+        cube.position.addScaledVector(dirVec, 1 / DURATION);
+      }
+    }
+    if (!foundMoving) {
+      this.isMoving = false;
+    }
+  }
+
   makeEventStart () {
     const onStart = (e) => {
       this.evtCoords = _getEventCoords(e);
@@ -273,7 +300,7 @@ class ThreeColorSpace extends React.Component {
 
   shouldComponentUpdate(nextProps) {
     const model = nextProps.model
-    this.moveCubes(model);
+    this.switchModel(model);
     this.updateCubes(nextProps.previewing, nextProps.showingAxes);
     this.updateAxes(nextProps.previewing, nextProps.showingAxes, model);
     this.updateTicks(nextProps.previewing, nextProps.showingAxes, model);
@@ -385,10 +412,10 @@ class ThreeColorSpace extends React.Component {
     this.selectedCube = this.cubes.slice(-1)[0];
   };
 
-  moveCubes(model) {
+  switchModel(model) {
+    this.isMoving = true;
     for (let cube of this.cubes) {
       const prop = cube.userData[model];
-      cube.position.set(...prop.position);
       cube.material.color.setHex(prop.color);
     }
   }
