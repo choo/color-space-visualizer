@@ -145,7 +145,7 @@ const _sortByColor = (a, b) => {
 
 
 const getCubePosition = (degree, saturation, value) =>{
-  const radian = degree * Math.PI / 180.0;
+  const radian = -(degree * Math.PI / 180.0);
   const radius = MAX_RADIUS * saturation / 100.0;
   return [
     Math.cos(radian) * radius,
