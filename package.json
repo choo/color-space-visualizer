@@ -9,7 +9,7 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-scripts": "^3.3.0",
-    "three": "^0.111.0",
+    "three": "^0.137.0",
     "three-orbitcontrols": "^2.110.3"
   },
   "homepage": "https://colorspace.choo.work/",
